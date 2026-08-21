@@ -1,0 +1,35 @@
+# Environment & Secrets
+.env
+.env.*
+*.env
+
+# SQLite & Databases
+*.db
+*.sqlite3
+*.sqlite
+app.db
+
+# Python & Caches
+__pycache__/
+*.py[cod]
+*.class
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+env/
+venv/
+ENV/
+
+# System & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+ws_debug.log
+
+# Node & Frontend
+node_modules/
+dist/
+.npm

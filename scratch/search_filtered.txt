@@ -1,0 +1,89 @@
+.\.env:9: DSA_OPENAI_API_KEY=""
+.\.env:12: DSA_NIM_API_KEY="nvapi-[REDACTED]"
+.\.env:12: DSA_NIM_API_KEY="nvapi-[REDACTED]"
+.\poetry.lock:2160: dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests", "setuptools", "xmlschema"]
+.\UI_UX_TRANSFORMATION_REPORT.md:7: The focus of this transformation was ensuring the application remains **functional and 100% integrated with the real backend**, eschewing mock data and demo modes.
+.\.pytest_cache\v\cache\nodeids:13: "tests/test_ai_gateway.py::test_ai_gateway_resolver_and_mock_provider",
+.\frontend\src\components\ui\Input.tsx:12: "flex h-10 w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-muted focus-visib
+.\frontend\src\features\auth\AuthContext.tsx:30: // For now, if we have a token, we just set a mock user.
+.\frontend\src\layouts\DashboardLayout.tsx:89: placeholder="Search concepts or problems..."
+.\frontend\src\pages\AuthPage.tsx:66: placeholder="student@example.com"
+.\frontend\src\pages\AuthPage.tsx:70: <label className="block text-sm font-medium text-text-primary mb-1">Password</label>
+.\frontend\src\pages\AuthPage.tsx:75: onChange={e => setPassword(e.target.value)}
+.\frontend\src\pages\AuthPage.tsx:77: placeholder="••••••••"
+.\frontend\src\pages\ProblemLibraryPage.tsx:58: placeholder="Search problems by name or concept..."
+.\frontend\src\pages\ProblemWorkspacePage.tsx:84: exercise_id: problemId || 'fake-id',
+.\frontend_demo\index.html:173: <input type="email" id="email" placeholder="Email" value="student@example.com">
+.\scratch\verify_ui_e2e.py:64: await page.fill('input[placeholder*="Ask for a hint"]', "Can you help me understand the problem?")
+.\scratch\verify_ui_e2e.py:65: await page.press('input[placeholder*="Ask for a hint"]', "Enter")
+.\scripts\create_demo_user.py:17: user = await authenticate_user(uow, "demo@kalvium.com", "DemoPassword123!")
+.\src\core\config\settings.py:72: openai_api_key: str = Field("", description="OpenAI API key for AI Gateway")
+.\src\core\config\settings.py:73: nim_api_key: str = Field("", description="NVIDIA NIM API key")
+.\src\infrastructure\ai\gateway.py:9: from src.infrastructure.ai.providers.mock_provider import MockLLMProvider
+.\src\infrastructure\ai\gateway.py:19: "mock": MockLLMProvider(),
+.\src\infrastructure\ai\gateway.py:32: def __init__(self, default_provider: str = "mock") -> None:
+.\src\infrastructure\ai\gateway.py:51: task_type, (self.default_provider_name, "mock-gpt-4o")
+.\src\infrastructure\ai\gateway.py:53: # If default provider is mock, keep mock provider name
+.\src\infrastructure\ai\gateway.py:54: if self.default_provider_name == "mock":
+.\src\infrastructure\ai\gateway.py:55: target_provider_name = "mock"
+.\src\infrastructure\ai\gateway.py:56: target_model = f"mock-{task_model}"
+.\src\infrastructure\ai\gateway.py:63: provider = self._providers["mock"]
+.\src\infrastructure\ai\gateway.py:92: # Fallback to Mock provider on provider failure
+.\src\infrastructure\ai\gateway.py:93: fallback_provider = self._providers["mock"]
+.\src\infrastructure\ai\gateway.py:96: model="mock-fallback",
+.\src\infrastructure\ai\schemas.py:33: provider_name: str = Field(..., description="Provider identifier ('openai', 'anthropic', 'mock')")
+.\src\infrastructure\ai\guardrails\input_guard.py:20: (re.compile(r"sk-[A-Za-z0-9]{32,}\b"), "[REDACTED_API_KEY]"),
+.\src\infrastructure\ai\providers\base.py:17: """Provider identifier name (e.g., 'openai', 'anthropic', 'mock')."""
+.\src\infrastructure\ai\providers\mock_provider.py:1: """Mock LLM provider for offline testing and deterministic evaluation."""
+.\src\infrastructure\ai\providers\mock_provider.py:13: class MockLLMProvider(BaseLLMProvider):
+.\src\infrastructure\ai\providers\mock_provider.py:14: """Mock LLM provider for deterministic testing."""
+.\src\infrastructure\ai\providers\mock_provider.py:19: return "mock"
+.\src\infrastructure\ai\providers\mock_provider.py:23: """Supported mock model names."""
+.\src\infrastructure\ai\providers\mock_provider.py:24: return ["mock-gpt-4o", "mock-claude-3-5-sonnet", "mock-local-deepseek"]
+.\src\infrastructure\ai\providers\mock_provider.py:33: """Generate deterministic mock LLM response."""
+.\src\infrastructure\ai\providers\mock_provider.py:38: # Formulate intelligent mock response
+.\src\infrastructure\ai\providers\mock_provider.py:49: reply = f"Mock AI Coach response to: '{user_prompt[:50]}...'"
+.\src\infrastructure\ai\providers\mock_provider.py:73: """Stream mock response tokens with small artificial delays."""
+.\src\infrastructure\ai\providers\nim_provider.py:31: if not settings.nim_api_key:
+.\src\infrastructure\ai\providers\nim_provider.py:35: api_key=settings.nim_api_key,
+.\src\infrastructure\ai\providers\openai_provider.py:37: if not settings.openai_api_key:
+.\src\infrastructure\ai\providers\openai_provider.py:38: # Gracefully degrade to mock response when API key is missing
+.\src\infrastructure\ai\providers\openai_provider.py:57: content="OpenAI LLM response placeholder.",
+.\src\infrastructure\ai\providers\__init__.py:4: from src.infrastructure.ai.providers.mock_provider import MockLLMProvider
+.\src\infrastructure\ai\providers\__init__.py:9: "MockLLMProvider",
+.\src\modules\ai\schemas.py:19: provider: str | None = Field(default=None, description="Provider override ('openai', 'mock')")
+.\src\modules\auth\dependencies.py:8: from fastapi.security import OAuth2PasswordBearer
+.\src\modules\auth\dependencies.py:16: oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+.\src\modules\billing\entitlement_service.py:85: # Hardcoded safe fallback if DB has no FREE plan
+.\src\modules\billing\provider.py:34: class MockBillingProvider:
+.\src\modules\billing\provider.py:35: """Mock implementation of the BillingProvider for testing and local development."""
+.\src\modules\billing\provider.py:38: logger.info("MockBillingProvider: Creating customer", user_id=user_id, email=email)
+.\src\modules\billing\provider.py:39: return f"cus_mock_{user_id[:8]}"
+.\src\modules\billing\provider.py:42: logger.info("MockBillingProvider: Creating subscription", customer_id=customer_id, plan_id=plan_id)
+.\src\modules\billing\provider.py:43: return f"sub_mock_{customer_id[:8]}_{plan_id[:8]}"
+.\src\modules\billing\provider.py:46: logger.info("MockBillingProvider: Canceling subscription", subscription_id=subscription_id)
+.\src\modules\billing\provider.py:50: logger.info("MockBillingProvider: Changing plan", subscription_id=subscription_id, new_plan_id=new_plan_id)
+.\src\modules\billing\provider.py:54: logger.info("MockBillingProvider: Processing webhook", payload=payload, signature=signature)
+.\src\modules\billing\provider.py:55: if signature != "mock_valid_signature":
+.\src\modules\learning\service.py:95: # Simple correctness evaluation mock for baseline submissions
+.\tests\conftest.py:20: def mock_ai_gateway():
+.\tests\conftest.py:21: """Ensure ai_gateway uses mock provider for tests."""
+.\tests\conftest.py:23: ai_gateway.default_provider_name = "mock"
+.\tests\test_ai_gateway.py:14: from src.infrastructure.ai.providers.mock_provider import MockLLMProvider
+.\tests\test_ai_gateway.py:33: assert "[REDACTED_API_KEY]" in res.sanitized_prompt
+.\tests\test_ai_gateway.py:84: async def test_ai_gateway_resolver_and_mock_provider() -> None:
+.\tests\test_ai_gateway.py:87: assert isinstance(provider, MockLLMProvider)
+.\tests\test_ai_gateway.py:88: assert "mock" in model
+.\tests\test_ai_gateway.py:92: assert res.provider_name == "mock"
+.\tests\test_ai_gateway.py:117: assert data["response"]["provider_name"] == "mock"
+.\tests\test_tutor.py:8: from unittest.mock import patch
+.\tests\test_tutor.py:22: def mock_gateway():
+.\tests\test_tutor.py:23: """Mock the AI Gateway streaming."""
+.\tests\test_tutor.py:24: with patch.object(tutor_service, "gateway") as mock:
+.\tests\test_tutor.py:26: async def mock_generate_stream(*args, **kwargs):
+.\tests\test_tutor.py:29: yield "mock "
+.\tests\test_tutor.py:32: mock.generate_stream = mock_generate_stream
+.\tests\test_tutor.py:33: yield mock
+.\tests\test_tutor.py:45: def test_tutor_websocket_socratic_guide(mock_gateway, auth_token, sync_client) -> None:
+.\tests\test_tutor.py:71: assert data4 == {"event": "token", "chunk": "mock "}
+.\tests\test_tutor.py:81: def test_tutor_websocket_invalid_action(mock_gateway, auth_token, sync_client) -> None:

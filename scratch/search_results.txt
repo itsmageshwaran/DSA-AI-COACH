@@ -1,0 +1,181 @@
+.\.env:9: DSA_OPENAI_API_KEY=""
+.\.env:12: DSA_NIM_API_KEY="nvapi-[REDACTED]"
+.\.env:12: DSA_NIM_API_KEY="nvapi-[REDACTED]"
+.\docker-compose.yml:9: POSTGRES_PASSWORD: postgrespassword
+.\docker-compose.yml:38: - DSA_DATABASE_URL=postgresql+asyncpg://postgres:postgrespassword@postgres:5432/dsa_db
+.\poetry.lock:95: description = "Modern password hashing for your software and your servers"
+.\poetry.lock:1813: description = "comprehensive password hashing framework supporting over 30 schemes"
+.\poetry.lock:2160: dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests", "setuptools", "xmlschema"]
+.\run_demo.py:13: "password": "SecurePassword123!"
+.\run_demo.py:27: "password": "SecurePassword123!"
+.\UI_UX_TRANSFORMATION_REPORT.md:7: The focus of this transformation was ensuring the application remains **functional and 100% integrated with the real backend**, eschewing mock data and demo modes.
+.\.pytest_cache\v\cache\nodeids:13: "tests/test_ai_gateway.py::test_ai_gateway_resolver_and_mock_provider",
+.\.pytest_cache\v\cache\nodeids:18: "tests/test_auth.py::test_login_success_and_invalid_password",
+.\alembic\versions\2026_08_15_1415-47e140b44e6e_add_learning_intelligence_domain.py:76: sa.Column('hashed_password', sa.String(length=255), nullable=False),
+.\frontend\src\components\ui\Input.tsx:12: "flex h-10 w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-text-primary file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-muted focus-visib
+.\frontend\src\features\auth\AuthContext.tsx:14: login: (email: string, password: string) => Promise<void>;
+.\frontend\src\features\auth\AuthContext.tsx:15: register: (email: string, password: string) => Promise<void>;
+.\frontend\src\features\auth\AuthContext.tsx:30: // For now, if we have a token, we just set a mock user.
+.\frontend\src\features\auth\AuthContext.tsx:44: const login = async (email: string, password: string) => {
+.\frontend\src\features\auth\AuthContext.tsx:47: formData.append('password', password);
+.\frontend\src\features\auth\AuthContext.tsx:65: const register = async (email: string, password: string) => {
+.\frontend\src\features\auth\AuthContext.tsx:69: body: JSON.stringify({ email, password }),
+.\frontend\src\features\auth\AuthContext.tsx:81: await login(email, password);
+.\frontend\src\layouts\DashboardLayout.tsx:89: placeholder="Search concepts or problems..."
+.\frontend\src\pages\AuthPage.tsx:9: const [password, setPassword] = useState('');
+.\frontend\src\pages\AuthPage.tsx:22: await login(email, password);
+.\frontend\src\pages\AuthPage.tsx:24: await register(email, password);
+.\frontend\src\pages\AuthPage.tsx:66: placeholder="student@example.com"
+.\frontend\src\pages\AuthPage.tsx:70: <label className="block text-sm font-medium text-text-primary mb-1">Password</label>
+.\frontend\src\pages\AuthPage.tsx:72: type="password"
+.\frontend\src\pages\AuthPage.tsx:74: value={password}
+.\frontend\src\pages\AuthPage.tsx:75: onChange={e => setPassword(e.target.value)}
+.\frontend\src\pages\AuthPage.tsx:77: placeholder="••••••••"
+.\frontend\src\pages\ProblemLibraryPage.tsx:58: placeholder="Search problems by name or concept..."
+.\frontend\src\pages\ProblemWorkspacePage.tsx:84: exercise_id: problemId || 'fake-id',
+.\frontend_demo\index.html:173: <input type="email" id="email" placeholder="Email" value="student@example.com">
+.\frontend_demo\index.html:174: <input type="password" id="password" placeholder="Password" value="SecurePassword123!">
+.\frontend_demo\index.html:174: <input type="password" id="password" placeholder="Password" value="SecurePassword123!">
+.\frontend_demo\index.html:228: const password = document.getElementById('password').value;
+.\frontend_demo\index.html:231: if (!email || !password) {
+.\frontend_demo\index.html:232: alert('Please enter email and password');
+.\frontend_demo\index.html:244: body: JSON.stringify({ email, password })
+.\frontend_demo\index.html:253: formData.append('password', password);
+.\logs\2026-08-16.log:46: {"time":"2026-08-17T11:10:12.621851+05:30","level":"ERROR","message":'HTTPException: Invalid email or password',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"41976d60
+.\logs\2026-08-16.log:49: {"time":"2026-08-17T11:37:05.637523+05:30","level":"ERROR","message":'HTTPException: Invalid email or password',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"1fb8f78c
+.\scratch\test_ws.py:11: 'password': 'password123',
+.\scratch\test_ws.py:18: 'password': 'password123'
+.\scratch\verify_api.py:7: test_password = "Password123!"
+.\scratch\verify_api.py:20: "password": test_password,
+.\scratch\verify_api.py:29: "password": test_password
+.\scratch\verify_ui_e2e.py:14: test_password = "SecurePassword123!"
+.\scratch\verify_ui_e2e.py:21: await page.fill('input[type="password"]', test_password)
+.\scratch\verify_ui_e2e.py:64: await page.fill('input[placeholder*="Ask for a hint"]', "Can you help me understand the problem?")
+.\scratch\verify_ui_e2e.py:65: await page.press('input[placeholder*="Ask for a hint"]', "Enter")
+.\scratch\verify_ui_e2e_flush.py:20: test_password = "SecurePassword123!"
+.\scratch\verify_ui_e2e_flush.py:32: await page.fill('input[type="password"]', test_password)
+.\scripts\create_demo_user.py:17: user = await authenticate_user(uow, "demo@kalvium.com", "DemoPassword123!")
+.\scripts\create_demo_user.py:26: password="DemoPassword123!",
+.\src\api\v1\auth.py:66: password = str(form.get("password") or "")
+.\src\api\v1\auth.py:70: password = str(body.get("password") or "")
+.\src\api\v1\auth.py:72: user = await authenticate_user(uow, email=email, password=password)
+.\src\core\config\settings.py:72: openai_api_key: str = Field("", description="OpenAI API key for AI Gateway")
+.\src\core\config\settings.py:73: nim_api_key: str = Field("", description="NVIDIA NIM API key")
+.\src\core\security\password.py:1: """Password security, hashing, and verification using bcrypt."""
+.\src\core\security\password.py:8: def hash_password(password: str) -> str:
+.\src\core\security\password.py:9: """Hash a plaintext password using bcrypt."""
+.\src\core\security\password.py:10: pw_bytes = password.encode("utf-8")[:72]
+.\src\core\security\password.py:15: def verify_password(plain_password: str, hashed_password: str) -> bool:
+.\src\core\security\password.py:16: """Verify plaintext password against stored bcrypt hash."""
+.\src\core\security\password.py:17: pw_bytes = plain_password.encode("utf-8")[:72]
+.\src\core\security\password.py:18: hash_bytes = hashed_password.encode("utf-8")
+.\src\core\security\password.py:22: def validate_password_policy(password: str) -> None:
+.\src\core\security\password.py:23: """Validate password against security policy requirements.
+.\src\core\security\password.py:27: if len(password) < 8:
+.\src\core\security\password.py:28: msg = "Password must be at least 8 characters long"
+.\src\core\security\password.py:30: if not any(c.isupper() for c in password):
+.\src\core\security\password.py:31: msg = "Password must contain at least one uppercase letter"
+.\src\core\security\password.py:33: if not any(c.islower() for c in password):
+.\src\core\security\password.py:34: msg = "Password must contain at least one lowercase letter"
+.\src\core\security\password.py:36: if not any(c.isdigit() for c in password):
+.\src\core\security\password.py:37: msg = "Password must contain at least one digit"
+.\src\domain\auth\models.py:33: hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+.\src\infrastructure\ai\gateway.py:9: from src.infrastructure.ai.providers.mock_provider import MockLLMProvider
+.\src\infrastructure\ai\gateway.py:19: "mock": MockLLMProvider(),
+.\src\infrastructure\ai\gateway.py:32: def __init__(self, default_provider: str = "mock") -> None:
+.\src\infrastructure\ai\gateway.py:51: task_type, (self.default_provider_name, "mock-gpt-4o")
+.\src\infrastructure\ai\gateway.py:53: # If default provider is mock, keep mock provider name
+.\src\infrastructure\ai\gateway.py:54: if self.default_provider_name == "mock":
+.\src\infrastructure\ai\gateway.py:55: target_provider_name = "mock"
+.\src\infrastructure\ai\gateway.py:56: target_model = f"mock-{task_model}"
+.\src\infrastructure\ai\gateway.py:63: provider = self._providers["mock"]
+.\src\infrastructure\ai\gateway.py:92: # Fallback to Mock provider on provider failure
+.\src\infrastructure\ai\gateway.py:93: fallback_provider = self._providers["mock"]
+.\src\infrastructure\ai\gateway.py:96: model="mock-fallback",
+.\src\infrastructure\ai\schemas.py:33: provider_name: str = Field(..., description="Provider identifier ('openai', 'anthropic', 'mock')")
+.\src\infrastructure\ai\guardrails\input_guard.py:20: (re.compile(r"sk-[A-Za-z0-9]{32,}\b"), "[REDACTED_API_KEY]"),
+.\src\infrastructure\ai\providers\base.py:17: """Provider identifier name (e.g., 'openai', 'anthropic', 'mock')."""
+.\src\infrastructure\ai\providers\mock_provider.py:1: """Mock LLM provider for offline testing and deterministic evaluation."""
+.\src\infrastructure\ai\providers\mock_provider.py:13: class MockLLMProvider(BaseLLMProvider):
+.\src\infrastructure\ai\providers\mock_provider.py:14: """Mock LLM provider for deterministic testing."""
+.\src\infrastructure\ai\providers\mock_provider.py:19: return "mock"
+.\src\infrastructure\ai\providers\mock_provider.py:23: """Supported mock model names."""
+.\src\infrastructure\ai\providers\mock_provider.py:24: return ["mock-gpt-4o", "mock-claude-3-5-sonnet", "mock-local-deepseek"]
+.\src\infrastructure\ai\providers\mock_provider.py:33: """Generate deterministic mock LLM response."""
+.\src\infrastructure\ai\providers\mock_provider.py:38: # Formulate intelligent mock response
+.\src\infrastructure\ai\providers\mock_provider.py:49: reply = f"Mock AI Coach response to: '{user_prompt[:50]}...'"
+.\src\infrastructure\ai\providers\mock_provider.py:73: """Stream mock response tokens with small artificial delays."""
+.\src\infrastructure\ai\providers\nim_provider.py:31: if not settings.nim_api_key:
+.\src\infrastructure\ai\providers\nim_provider.py:35: api_key=settings.nim_api_key,
+.\src\infrastructure\ai\providers\openai_provider.py:37: if not settings.openai_api_key:
+.\src\infrastructure\ai\providers\openai_provider.py:38: # Gracefully degrade to mock response when API key is missing
+.\src\infrastructure\ai\providers\openai_provider.py:57: content="OpenAI LLM response placeholder.",
+.\src\infrastructure\ai\providers\__init__.py:4: from src.infrastructure.ai.providers.mock_provider import MockLLMProvider
+.\src\infrastructure\ai\providers\__init__.py:9: "MockLLMProvider",
+.\src\modules\ai\schemas.py:19: provider: str | None = Field(default=None, description="Provider override ('openai', 'mock')")
+.\src\modules\auth\dependencies.py:8: from fastapi.security import OAuth2PasswordBearer
+.\src\modules\auth\dependencies.py:16: oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+.\src\modules\auth\schemas.py:12: password: str = Field(..., description="User plaintext password")
+.\src\modules\auth\schemas.py:20: password: str = Field(..., description="User plaintext password")
+.\src\modules\auth\service.py:10: from src.core.security.password import hash_password, validate_password_policy, verify_password
+.\src\modules\auth\service.py:19: """Validate payload, hash password, and create new User."""
+.\src\modules\auth\service.py:20: validate_password_policy(payload.password)
+.\src\modules\auth\service.py:30: hashed_pw = hash_password(payload.password)
+.\src\modules\auth\service.py:33: hashed_password=hashed_pw,
+.\src\modules\auth\service.py:43: async def authenticate_user(uow: UnitOfWork, email: str, password: str) -> User:
+.\src\modules\auth\service.py:47: if not user or not verify_password(password, user.hashed_password):
+.\src\modules\auth\service.py:50: detail="Invalid email or password",
+.\src\modules\billing\entitlement_service.py:85: # Hardcoded safe fallback if DB has no FREE plan
+.\src\modules\billing\provider.py:34: class MockBillingProvider:
+.\src\modules\billing\provider.py:35: """Mock implementation of the BillingProvider for testing and local development."""
+.\src\modules\billing\provider.py:38: logger.info("MockBillingProvider: Creating customer", user_id=user_id, email=email)
+.\src\modules\billing\provider.py:39: return f"cus_mock_{user_id[:8]}"
+.\src\modules\billing\provider.py:42: logger.info("MockBillingProvider: Creating subscription", customer_id=customer_id, plan_id=plan_id)
+.\src\modules\billing\provider.py:43: return f"sub_mock_{customer_id[:8]}_{plan_id[:8]}"
+.\src\modules\billing\provider.py:46: logger.info("MockBillingProvider: Canceling subscription", subscription_id=subscription_id)
+.\src\modules\billing\provider.py:50: logger.info("MockBillingProvider: Changing plan", subscription_id=subscription_id, new_plan_id=new_plan_id)
+.\src\modules\billing\provider.py:54: logger.info("MockBillingProvider: Processing webhook", payload=payload, signature=signature)
+.\src\modules\billing\provider.py:55: if signature != "mock_valid_signature":
+.\src\modules\learning\service.py:95: # Simple correctness evaluation mock for baseline submissions
+.\tests\conftest.py:20: def mock_ai_gateway():
+.\tests\conftest.py:21: """Ensure ai_gateway uses mock provider for tests."""
+.\tests\conftest.py:23: ai_gateway.default_provider_name = "mock"
+.\tests\conftest.py:61: user_reg = {"email": "test_auth_client@example.com", "password": "Password123"}
+.\tests\test_ai_gateway.py:14: from src.infrastructure.ai.providers.mock_provider import MockLLMProvider
+.\tests\test_ai_gateway.py:33: assert "[REDACTED_API_KEY]" in res.sanitized_prompt
+.\tests\test_ai_gateway.py:84: async def test_ai_gateway_resolver_and_mock_provider() -> None:
+.\tests\test_ai_gateway.py:87: assert isinstance(provider, MockLLMProvider)
+.\tests\test_ai_gateway.py:88: assert "mock" in model
+.\tests\test_ai_gateway.py:92: assert res.provider_name == "mock"
+.\tests\test_ai_gateway.py:117: assert data["response"]["provider_name"] == "mock"
+.\tests\test_auth.py:15: "password": "Password123",
+.\tests\test_auth.py:32: "password": "Password123",
+.\tests\test_auth.py:42: async def test_login_success_and_invalid_password(client: AsyncClient) -> None:
+.\tests\test_auth.py:43: """Verify login with correct credentials and rejection on invalid password."""
+.\tests\test_auth.py:45: reg_payload = {"email": "login@example.com", "password": "SecretPassword1"}
+.\tests\test_auth.py:48: # 2. Login invalid password
+.\tests\test_auth.py:49: invalid_login = {"email": "login@example.com", "password": "WrongPassword1"}
+.\tests\test_auth.py:53: # 3. Login valid password
+.\tests\test_auth.py:54: valid_login = {"email": "login@example.com", "password": "SecretPassword1"}
+.\tests\test_auth.py:66: reg_payload = {"email": "refresh@example.com", "password": "SecretPassword1"}
+.\tests\test_execution.py:203: user_reg = {"email": "exec_user@example.com", "password": "Password123"}
+.\tests\test_learning_api.py:28: user_reg = {"email": "user@example.com", "password": "Password123"}
+.\tests\test_learning_api.py:49: user_reg = {"email": "student@example.com", "password": "Password123"}
+.\tests\test_learning_api.py:69: reg_payload = {"email": "progress_user@example.com", "password": "Password123"}
+.\tests\test_learning_intelligence.py:21: user_reg = {"email": email, "password": "Password123"}
+.\tests\test_learning_intelligence.py:34: admin_reg = {"email": "admin@example.com", "password": "Password123"}
+.\tests\test_learning_services.py:29: user = await u_repo.create(User(email="learner@example.com", hashed_password="hashed_pw"))
+.\tests\test_progress_calculations.py:28: user = await UserRepository(uow.session).create(User(email="student@example.com", hashed_password="pw"))
+.\tests\test_tutor.py:8: from unittest.mock import patch
+.\tests\test_tutor.py:22: def mock_gateway():
+.\tests\test_tutor.py:23: """Mock the AI Gateway streaming."""
+.\tests\test_tutor.py:24: with patch.object(tutor_service, "gateway") as mock:
+.\tests\test_tutor.py:26: async def mock_generate_stream(*args, **kwargs):
+.\tests\test_tutor.py:29: yield "mock "
+.\tests\test_tutor.py:32: mock.generate_stream = mock_generate_stream
+.\tests\test_tutor.py:33: yield mock
+.\tests\test_tutor.py:39: user_reg = {"email": "ws_tutor@example.com", "password": "Password123"}
+.\tests\test_tutor.py:45: def test_tutor_websocket_socratic_guide(mock_gateway, auth_token, sync_client) -> None:
+.\tests\test_tutor.py:71: assert data4 == {"event": "token", "chunk": "mock "}
+.\tests\test_tutor.py:81: def test_tutor_websocket_invalid_action(mock_gateway, auth_token, sync_client) -> None:
+.\tests\test_users.py:28: reg_payload = {"email": "me@example.com", "password": "Password123", "full_name": "My Profile"}

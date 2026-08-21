@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA AI Coach</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-color: #334155;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--surface-color);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .auth-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #status {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .editor-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            padding: 1rem;
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        textarea {
+            flex: 1;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            border: none;
+            padding: 1rem;
+            resize: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--surface-color);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 1rem;
+            border-radius: 8px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .message.ai {
+            background-color: var(--bg-color);
+            align-self: flex-start;
+            border: 1px solid var(--border-color);
+        }
+
+        .message.user {
+            background-color: var(--accent-color);
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>🧠 DSA AI Coach</h2>
+        <div class="auth-container" id="auth-panel">
+            <input type="email" id="email" placeholder="Email" value="student@example.com">
+            <input type="password" id="password" placeholder="Password" value="SecurePassword123!">
+            <button onclick="registerAndLogin()" id="auth-btn">Login / Register</button>
+            <span id="status">Not connected</span>
+        </div>
+        <div class="auth-container hidden" id="user-panel">
+            <span id="user-greeting" style="color: var(--success); font-weight: 500;">Connected!</span>
+            <button onclick="disconnect()" style="background-color: var(--border-color);">Disconnect</button>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="editor-section">
+            <div class="section-header">Code Editor</div>
+            <textarea id="code-editor" spellcheck="false">def binary_search(arr, target):
+    # Write your implementation here
+    pass
+</textarea>
+            <div class="chat-input-area" style="background-color: var(--surface-color);">
+                <button onclick="submitCode()" id="submit-btn" style="width: 100%;" disabled>Submit Code to AI Coach</button>
+            </div>
+        </div>
+        
+        <div class="chat-section">
+            <div class="section-header">AI Tutor Feedback</div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai">Welcome! I am your AI DSA Coach. Connect and submit your code to get Socratic guidance.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let jwtToken = null;
+        const API_BASE = 'http://127.0.0.1:8000/api/v1';
+        const WS_BASE = 'ws://127.0.0.1:8000/api/v1/ws';
+
+        function updateStatus(msg, color = 'var(--text-secondary)') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = msg;
+            statusEl.style.color = color;
+        }
+
+        function appendMessage(sender, text) {
+            const chat = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            msgDiv.textContent = text;
+            chat.appendChild(msgDiv);
+            chat.scrollTop = chat.scrollHeight;
+            return msgDiv;
+        }
+
+        async function registerAndLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('auth-btn');
+
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+
+            btn.disabled = true;
+            updateStatus('Registering...', 'var(--accent-color)');
+
+            try {
+                // 1. Try to register
+                const regRes = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                // Ignore 400 because user might already exist, which is fine
+
+                // 2. Login
+                updateStatus('Logging in...', 'var(--accent-color)');
+                const formData = new URLSearchParams();
+                formData.append('username', email);
+                formData.append('password', password);
+
+                const loginRes = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData
+                });
+
+                if (!loginRes.ok) {
+                    const err = await loginRes.json();
+                    throw new Error(err.detail || 'Login failed');
+                }
+
+                const data = await loginRes.json();
+                jwtToken = data.access_token;
+                
+                // Switch UI
+                document.getElementById('auth-panel').classList.add('hidden');
+                document.getElementById('user-panel').classList.remove('hidden');
+                document.getElementById('submit-btn').disabled = false;
+                
+                // 3. Connect WebSocket
+                connectWebSocket();
+
+            } catch (err) {
+                updateStatus(`Error: ${err.message}`, 'var(--error)');
+                btn.disabled = false;
+            }
+        }
+
+        function connectWebSocket() {
+            updateStatus('Connecting WS...', 'var(--accent-color)');
+            ws = new WebSocket(`${WS_BASE}/tutor?token=${jwtToken}`);
+
+            ws.onopen = () => {
+                updateStatus('Connected to AI!', 'var(--success)');
+                appendMessage('ai', 'Connection established. Waiting for your code submission...');
+            };
+
+            let currentAiMessageDiv = null;
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.event === "stream_start") {
+                        currentAiMessageDiv = appendMessage('ai', '');
+                    } else if (data.event === "token") {
+                        if (!currentAiMessageDiv) currentAiMessageDiv = appendMessage('ai', '');
+                        currentAiMessageDiv.textContent += data.chunk;
+                    } else if (data.event === "stream_end") {
+                        currentAiMessageDiv = null;
+                    }
+                } catch (e) {
+                    console.error("Failed to parse WS message:", event.data);
+                }
+                
+                // Scroll to bottom dynamically
+                const chat = document.getElementById('chat-messages');
+                chat.scrollTop = chat.scrollHeight;
+            };
+
+            ws.onclose = () => {
+                document.getElementById('submit-btn').disabled = true;
+                currentAiMessageDiv = null;
+                updateStatus('Disconnected', 'var(--error)');
+                appendMessage('ai', '[Connection Closed]');
+            };
+
+            ws.onerror = (err) => {
+                console.error("WS Error:", err);
+            };
+        }
+
+        function submitCode() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('Not connected to WebSocket');
+                return;
+            }
+
+            const code = document.getElementById('code-editor').value;
+            appendMessage('user', 'Submitting code analysis request...');
+
+            const payload = {
+                action: "socratic_guide",
+                code: code,
+                execution_result: { status: "success" },
+                ast_analysis: { complexity: "O(1)" }
+            };
+
+            ws.send(JSON.stringify(payload));
+        }
+
+        function disconnect() {
+            if (ws) ws.close();
+            jwtToken = null;
+            document.getElementById('auth-panel').classList.remove('hidden');
+            document.getElementById('user-panel').classList.add('hidden');
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('auth-btn').disabled = false;
+            updateStatus('Disconnected');
+        }
+    </script>
+</body>
+</html>

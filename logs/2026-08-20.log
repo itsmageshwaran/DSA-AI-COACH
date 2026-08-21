@@ -1,0 +1,79 @@
+{"time":"2026-08-20T10:46:43.104216+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T10:46:43.105146+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T10:46:43.105542+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T10:46:43.117036+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T10:46:43.117938+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T10:46:43.968536+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T10:46:43.968932+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T10:46:43.969475+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T10:46:44.748775+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T10:46:44.749206+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T10:46:44.749359+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T10:46:44.752256+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T10:46:44.752508+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T10:46:45.498203+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T10:46:45.498634+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T10:46:45.499108+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T10:46:48.047333+05:30","level":"ERROR","message":'HTTPException: Not authenticated',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"8da3743b-57f2-4f93-af6e-0820070862d8"}
+{"time":"2026-08-20T10:46:49.190280+05:30","level":"ERROR","message":'HTTPException: Could not validate credentials',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"28de847f-7b5d-4e47-a75c-1317ff218e37"}
+{"time":"2026-08-20T10:46:52.874913+05:30","level":"INFO","message":'Executing background ping_task',"module":"worker","function":"ping_task","line":15,"request_id":null}
+{"time":"2026-08-20T10:46:54.083856+05:30","level":"INFO","message":'Executing sample background job',"module":"worker","function":"sample_background_job","line":21,"request_id":null}
+{"time":"2026-08-20T10:46:55.019526+05:30","level":"INFO","message":'Inline background job execution (worker pool unavailable)',"module":"queue","function":"enqueue_job","line":66,"request_id":null}
+{"time":"2026-08-20T11:06:40.598622+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T11:06:40.640420+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T11:06:40.640893+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T11:06:40.662680+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T11:06:40.663725+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T11:06:42.315304+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T11:06:42.315966+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T11:06:42.316933+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T11:06:43.698278+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T11:06:43.698539+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T11:06:43.698633+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T11:06:43.700266+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T11:06:43.700496+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T11:06:44.317278+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T11:06:44.317613+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T11:06:44.318126+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T11:06:46.932166+05:30","level":"ERROR","message":'HTTPException: Not authenticated',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"6626e31e-5941-4930-8d95-ec5e687465c0"}
+{"time":"2026-08-20T11:06:47.935176+05:30","level":"ERROR","message":'HTTPException: Could not validate credentials',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"275e2e8c-d685-45eb-9c5d-0dbc37573397"}
+{"time":"2026-08-20T11:06:51.537893+05:30","level":"INFO","message":'Executing background ping_task',"module":"worker","function":"ping_task","line":15,"request_id":null}
+{"time":"2026-08-20T11:06:52.266046+05:30","level":"INFO","message":'Executing sample background job',"module":"worker","function":"sample_background_job","line":21,"request_id":null}
+{"time":"2026-08-20T11:06:53.025660+05:30","level":"INFO","message":'Inline background job execution (worker pool unavailable)',"module":"queue","function":"enqueue_job","line":66,"request_id":null}
+{"time":"2026-08-20T15:12:47.237292+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T15:12:47.238746+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T15:12:47.239291+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T15:12:47.248705+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T15:12:47.249115+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T15:12:47.863036+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T15:12:47.863407+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T15:12:47.863917+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T15:12:48.692488+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T15:12:48.693052+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T15:12:48.693282+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T15:12:48.696419+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T15:12:48.696738+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T15:12:49.344413+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T15:12:49.344700+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T15:12:49.345120+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T15:12:51.674076+05:30","level":"ERROR","message":'HTTPException: Not authenticated',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"76735cb5-4b7f-44cb-aee8-5830c84d1a01"}
+{"time":"2026-08-20T15:12:52.495956+05:30","level":"ERROR","message":'HTTPException: Could not validate credentials',"module":"handlers","function":"http_exception_handler","line":36,"request_id":"d71d824d-49b7-4911-8d93-e03e2518c0b6"}
+{"time":"2026-08-20T15:12:55.133052+05:30","level":"INFO","message":'Executing background ping_task',"module":"worker","function":"ping_task","line":15,"request_id":null}
+{"time":"2026-08-20T15:12:55.840899+05:30","level":"INFO","message":'Executing sample background job',"module":"worker","function":"sample_background_job","line":21,"request_id":null}
+{"time":"2026-08-20T15:12:56.697569+05:30","level":"INFO","message":'Inline background job execution (worker pool unavailable)',"module":"queue","function":"enqueue_job","line":66,"request_id":null}
+{"time":"2026-08-20T15:33:08.773762+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T15:33:08.775828+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T15:33:08.777316+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T15:33:08.782464+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T15:33:08.783147+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T15:33:09.653447+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T15:33:09.653879+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T15:33:09.654577+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
+{"time":"2026-08-20T15:33:10.452779+05:30","level":"INFO","message":'Application startup',"module":"events","function":"lifespan","line":23,"request_id":null}
+{"time":"2026-08-20T15:33:10.453191+05:30","level":"INFO","message":'OpenTelemetry tracing disabled in configuration (OTEL_ENABLED=false)',"module":"tracer","function":"init_telemetry","line":27,"request_id":null}
+{"time":"2026-08-20T15:33:10.453376+05:30","level":"INFO","message":'Initializing Redis connection pool',"module":"connection","function":"initialize","line":32,"request_id":null}
+{"time":"2026-08-20T15:33:10.455888+05:30","level":"INFO","message":'Redis connection established successfully',"module":"connection","function":"initialize","line":43,"request_id":null}
+{"time":"2026-08-20T15:33:10.456148+05:30","level":"INFO","message":'Background worker service disabled in configuration (WORKER_ENABLED=false)',"module":"queue","function":"init_worker","line":22,"request_id":null}
+{"time":"2026-08-20T15:33:11.120565+05:30","level":"INFO","message":'Application shutdown initiating',"module":"events","function":"lifespan","line":37,"request_id":null}
+{"time":"2026-08-20T15:33:11.120857+05:30","level":"INFO","message":'Closing Redis client connections',"module":"connection","function":"close","line":56,"request_id":null}
+{"time":"2026-08-20T15:33:11.121341+05:30","level":"INFO","message":'Application shutdown complete',"module":"events","function":"lifespan","line":41,"request_id":null}
