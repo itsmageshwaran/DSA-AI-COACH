@@ -1,3 +1,13 @@
+---
+title: Dsa Ai Coach Backend
+emoji: 🧠
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # DSA AI Coach - Personalized Mastery System
 
 Welcome to the **Personalized DSA Career Mastery Coach**. This application is an end-to-end learning platform that provides personalized DSA (Data Structures & Algorithms) curriculum pathways tailored to specific software engineering careers (Backend, Frontend, ML/AI, Cybersecurity, etc.).
