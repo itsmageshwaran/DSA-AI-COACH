@@ -74,21 +74,25 @@ class EntitlementService:
         repo = BillingRepository(self.uow.session)
         sub = await repo.get_active_subscription_for_user(user_id)
 
-        if sub and sub.plan:
-            return sub.plan.limits
-
-        # Fallback to FREE plan limits
-        free_plan = await repo.get_plan_by_name("FREE")
-        if free_plan:
-            return free_plan.limits
-
-        # Hardcoded safe fallback for standard/free tier
-        return {
-            "ai_requests_daily": 500,
-            "ai_tokens_daily": 500000,
+        limits = {
+            "ai_requests_daily": 1000,
+            "ai_tokens_daily": 1000000,
             "code_executions_daily": 1000,
-            "tutor_messages_daily": 500,
+            "tutor_messages_daily": 1000,
         }
+
+        if sub and sub.plan and sub.plan.limits:
+            limits.update(sub.plan.limits)
+        elif free_plan and free_plan.limits:
+            limits.update(free_plan.limits)
+
+        # Guarantee high daily demo limits
+        if limits.get("tutor_messages_daily", 0) < 500:
+            limits["tutor_messages_daily"] = 1000
+        if limits.get("ai_requests_daily", 0) < 500:
+            limits["ai_requests_daily"] = 1000
+
+        return limits
 
     def _get_quota_key(self, subject_id: str, resource: str) -> str:
         """Generate a daily deterministic quota key."""
