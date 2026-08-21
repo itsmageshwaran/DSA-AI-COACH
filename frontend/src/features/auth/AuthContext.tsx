@@ -78,8 +78,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || 'Login failed');
+      let errMsg = 'Login failed. Please check your email and password.';
+      try {
+        const err = await res.json();
+        errMsg = err.error?.message || err.detail || errMsg;
+      } catch (_) {}
+      throw new Error(errMsg);
     }
 
     const data = await res.json();
@@ -109,11 +113,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     if (!res.ok) {
-      const err = await res.json();
-      // 400 might mean user exists, which is fine, but we should throw if it's a real failure
-      if (res.status !== 400 || err.detail !== "User already exists") {
-        throw new Error(err.detail || 'Registration failed');
+      let errMsg = 'Registration failed';
+      try {
+        const err = await res.json();
+        errMsg = err.error?.message || err.detail || errMsg;
+      } catch (_) {}
+
+      // If user already registered, seamlessly attempt login
+      if (res.status === 400 && errMsg.toLowerCase().includes('already registered')) {
+        try {
+          await login(email, password);
+          return;
+        } catch (_) {
+          throw new Error('This email is already registered. Please sign in with your password.');
+        }
       }
+      throw new Error(errMsg);
     }
     
     // Auto-login after registration
