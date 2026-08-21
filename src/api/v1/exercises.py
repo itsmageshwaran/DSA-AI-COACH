@@ -8,8 +8,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.domain.auth.models import User
 from src.domain.learning.models import Exercise, Lesson, Concept, Progress
 from src.infrastructure.database.dependencies import get_db_session
+from src.modules.auth.dependencies import get_current_active_user
 from src.modules.learning.schemas import ExerciseResponse
 
 router = APIRouter()

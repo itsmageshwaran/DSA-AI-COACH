@@ -25,7 +25,7 @@ export function ProblemLibraryPage() {
         const data = await learningApi.getExercises();
         setExercises(data);
       } catch (err: any) {
-        if (err.message.includes('BACKEND_MISSING')) {
+        if (err.message?.includes('BACKEND_MISSING')) {
           setError(err.message);
         } else {
           setError('Failed to load exercises.');
@@ -49,28 +49,28 @@ export function ProblemLibraryPage() {
   const getDifficultyColor = (diff: string | undefined) => {
     if (!diff) return "bg-surface-muted text-text-secondary border-border";
     const d = diff.toLowerCase();
-    if (d.includes('easy')) return "bg-success/10 text-success border-success/20";
-    if (d.includes('medium')) return "bg-warning/10 text-warning border-warning/20";
-    if (d.includes('hard')) return "bg-error/10 text-error border-error/20";
-    return "bg-accent/10 text-accent border-accent/20";
+    if (d.includes('easy')) return "bg-success-subtle text-success border-success/25";
+    if (d.includes('medium')) return "bg-warning-subtle text-warning border-warning/25";
+    if (d.includes('hard')) return "bg-error-subtle text-error border-error/25";
+    return "bg-accent-subtle text-accent border-accent/25";
   };
 
   return (
-    <div className="p-4 lg:p-8 max-w-7xl mx-auto flex flex-col h-[calc(100vh-4rem)] pb-20 animate-fade-in">
-      <header className="mb-8 shrink-0">
-        <h1 className="text-3xl lg:text-4xl font-bold text-text-primary tracking-tight">Problem Library</h1>
-        <p className="text-text-secondary mt-3 text-lg max-w-2xl">
+    <div className="w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col min-w-0 pb-24 animate-fade-in font-sans text-text-primary">
+      <header className="mb-6 sm:mb-8 shrink-0">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-text-primary tracking-tight">Problem Library</h1>
+        <p className="text-text-secondary mt-2 text-sm sm:text-base max-w-2xl">
           Practice your algorithm skills with our curated collection of coding challenges.
         </p>
       </header>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-8 shrink-0">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 shrink-0">
         <div className="relative flex-1 max-w-md">
-          <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+          <Search className="w-4 h-4 sm:w-5 sm:h-5 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
           <Input 
             type="text" 
             placeholder="Search problems by name or concept..." 
-            className="pl-10 h-11"
+            className="pl-10 h-10 sm:h-11 text-xs sm:text-sm bg-surface"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -87,7 +87,7 @@ export function ProblemLibraryPage() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              "px-6 py-4 text-sm font-semibold border-b-2 transition-all whitespace-nowrap flex items-center gap-2",
+              "px-4 sm:px-6 py-3 text-xs sm:text-sm font-semibold border-b-2 transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer",
               activeTab === tab.id 
                 ? "border-primary text-primary" 
                 : "border-transparent text-text-secondary hover:text-text-primary hover:border-border-hover"
@@ -95,8 +95,8 @@ export function ProblemLibraryPage() {
           >
             {tab.label}
             <span className={cn(
-              "text-xs px-2 py-0.5 rounded-full",
-              activeTab === tab.id ? "bg-primary-subtle text-primary" : "bg-surface-muted text-text-muted"
+              "text-[11px] px-2 py-0.5 rounded-full font-bold",
+              activeTab === tab.id ? "bg-accent-subtle text-accent" : "bg-surface-muted text-text-muted"
             )}>
               {tab.count}
             </span>
@@ -104,11 +104,11 @@ export function ProblemLibraryPage() {
         ))}
       </div>
 
-      <div className="flex-1 overflow-auto pr-1 lg:pr-4 custom-scrollbar">
+      <div className="space-y-3 min-w-0">
         {isLoading ? (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[1, 2, 3, 4, 5].map(i => (
-              <Skeleton key={i} className="h-24 w-full rounded-xl" />
+              <Skeleton key={i} className="h-20 w-full rounded-xl" />
             ))}
           </div>
         ) : error ? (
@@ -120,63 +120,68 @@ export function ProblemLibraryPage() {
             />
           </Card>
         ) : filteredExercises.length === 0 ? (
-          <Card>
+          <div className="py-12">
             <EmptyState
-              icon={Search}
+              icon={Code2}
               title="No problems found"
-              description={searchQuery ? "Try adjusting your search terms." : "Check back later for new problems."}
+              description={searchQuery ? "No matching problems found for your search query." : "No problems currently in this category."}
             />
-          </Card>
+          </div>
         ) : (
-          <div className="space-y-4">
-            {filteredExercises.map((exercise) => (
+          <div className="space-y-3 min-w-0">
+            {filteredExercises.map(exercise => (
               <Card 
                 key={exercise.id} 
-                className={cn(
-                  "group hover:border-accent/50 hover:shadow-sm transition-all duration-300",
-                  exercise.is_completed ? "bg-surface-muted/30 border-border/50" : ""
-                )}
+                className="hover:border-border-hover transition-all duration-200 cursor-pointer shadow-2xs group min-w-0"
+                onClick={() => navigate(`/workspace/${exercise.id}`)}
               >
-                <CardContent className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-start gap-4">
+                <CardContent className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 min-w-0">
+                  <div className="flex items-start gap-3.5 min-w-0 flex-1">
                     <div className={cn(
-                      "w-10 h-10 rounded-lg flex items-center justify-center shrink-0 mt-0.5",
+                      "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 transition-colors",
                       exercise.is_completed 
-                        ? "bg-success/10 text-success" 
-                        : "bg-surface-muted text-text-muted group-hover:bg-accent-subtle group-hover:text-accent transition-colors"
+                        ? "bg-success-subtle text-success" 
+                        : "bg-surface-muted text-text-muted group-hover:text-text-primary"
                     )}>
-                      {exercise.is_completed ? <CheckCircle2 className="w-5 h-5" /> : <Code2 className="w-5 h-5" />}
+                      {exercise.is_completed ? (
+                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                      ) : (
+                        <div className="w-2.5 h-2.5 rounded-full border-2 border-current"></div>
+                      )}
                     </div>
-                    <div>
-                      <h3 className={cn(
-                        "text-lg font-bold tracking-tight mb-1",
-                        exercise.is_completed ? "text-text-secondary" : "text-text-primary group-hover:text-accent transition-colors"
-                      )}>
-                        {exercise.title}
-                      </h3>
-                      <div className="flex items-center gap-2 mt-2">
-                        {exercise.difficulty && (
-                          <Badge variant="outline" className={cn("text-xs font-semibold uppercase tracking-wider", getDifficultyColor(exercise.difficulty))}>
-                            {exercise.difficulty}
-                          </Badge>
-                        )}
-                        {exercise.concept_name && (
-                          <span className="text-sm font-medium text-text-secondary">
-                            {exercise.concept_name}
-                          </span>
-                        )}
+                    
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="font-bold text-sm sm:text-base text-text-primary group-hover:text-accent transition-colors truncate">
+                          {exercise.title}
+                        </h2>
+                        <Badge 
+                          variant="outline" 
+                          className={cn("text-[11px] font-semibold capitalize shrink-0", getDifficultyColor(exercise.difficulty))}
+                        >
+                          {exercise.difficulty || 'Easy'}
+                        </Badge>
                       </div>
+                      
+                      {exercise.concept_name && (
+                        <p className="text-xs text-text-muted font-medium truncate">
+                          Topic: {exercise.concept_name}
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  <div className="shrink-0 flex items-center sm:pl-4">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t border-border/40 sm:border-0">
+                    <span className="text-xs font-semibold text-text-muted sm:hidden">
+                      {exercise.is_completed ? 'Completed' : 'To Do'}
+                    </span>
                     <Button 
-                      onClick={() => navigate(`/workspace/${exercise.id}`)}
+                      size="sm" 
                       variant={exercise.is_completed ? "secondary" : "primary"}
-                      className="w-full sm:w-auto"
+                      className="gap-1.5 text-xs font-semibold"
                     >
-                      {exercise.is_completed ? "Review Code" : "Solve Challenge"}
-                      <Play className="w-4 h-4 ml-2 fill-current" />
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>{exercise.is_completed ? 'Review' : 'Solve'}</span>
                     </Button>
                   </div>
                 </CardContent>

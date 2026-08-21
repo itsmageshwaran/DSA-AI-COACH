@@ -6,6 +6,10 @@ for each test.
 
 from __future__ import annotations
 
+import os
+os.environ["DSA_DATABASE_URL"] = "sqlite+aiosqlite:///file:testmem?mode=memory&cache=shared&uri=true"
+os.environ["DSA_ENVIRONMENT"] = "development"
+
 from collections.abc import AsyncGenerator
 import pytest
 from fastapi import FastAPI
@@ -33,10 +37,8 @@ def anyio_backend() -> str:
 
 @pytest.fixture(autouse=True)
 async def prepare_database() -> None:
-    """Drop and recreate test tables before each test for complete isolation."""
+    """Ensure clean test tables before each test."""
     async with engine.begin() as conn:
-        # SQLite can throw OperationalError (database is locked) if tests hold active connections.
-        # By ensuring test DBs are isolated or connections are explicitly rolled back, we avoid this.
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
@@ -58,9 +60,10 @@ async def client(app: FastAPI) -> AsyncGenerator[AsyncClient, None]:
 @pytest.fixture
 async def auth_client(client: AsyncClient) -> AsyncClient:
     """Provide an authenticated async test client."""
-    user_reg = {"email": "test_auth_client@example.com", "password": "Password123"}
+    user_reg = {"email": "test_auth_client@example.com", "password": "Password123", "full_name": "Test Client"}
     await client.post("/api/v1/auth/register", json=user_reg)
     login_res = await client.post("/api/v1/auth/login", json=user_reg)
-    token = login_res.json()["access_token"]
-    client.headers.update({"Authorization": f"Bearer {token}"})
+    if login_res.status_code == 200:
+        token = login_res.json()["access_token"]
+        client.headers.update({"Authorization": f"Bearer {token}"})
     return client

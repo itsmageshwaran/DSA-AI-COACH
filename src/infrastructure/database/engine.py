@@ -10,7 +10,7 @@ from src.core.config.settings import settings
 
 def get_engine_kwargs(url: str) -> dict[str, Any]:
     """Build kwargs for create_async_engine based on dialect."""
-    from sqlalchemy.pool import NullPool
+    from sqlalchemy.pool import StaticPool
 
     kwargs: dict[str, Any] = {
         "echo": settings.database_echo,
@@ -20,7 +20,8 @@ def get_engine_kwargs(url: str) -> dict[str, Any]:
         kwargs["pool_size"] = settings.pool_size
         kwargs["max_overflow"] = settings.max_overflow
     else:
-        kwargs["poolclass"] = NullPool
+        kwargs["poolclass"] = StaticPool
+        kwargs["connect_args"] = {"check_same_thread": False}
     return kwargs
 
 

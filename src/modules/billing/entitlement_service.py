@@ -83,8 +83,6 @@ class EntitlementService:
 
         if sub and sub.plan and sub.plan.limits:
             limits.update(sub.plan.limits)
-        elif free_plan and free_plan.limits:
-            limits.update(free_plan.limits)
 
         # Guarantee high daily demo limits
         if limits.get("tutor_messages_daily", 0) < 500:

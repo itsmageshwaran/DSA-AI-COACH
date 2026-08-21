@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/AuthContext';
 import { Button } from '../components/ui/Button';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { Loader2, ArrowRight } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -64,10 +65,15 @@ export function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative font-sans text-text-primary">
+      {/* Top right ThemeToggle */}
+      <div className="absolute top-6 right-6">
+        <ThemeToggle size="sm" />
+      </div>
+
       <div className="max-w-xl w-full">
         {/* Progress */}
-        <div className="flex gap-2 mb-12">
+        <div className="flex gap-2 mb-10">
           {[1, 2, 3].map(i => (
             <div 
               key={i} 
@@ -80,32 +86,32 @@ export function OnboardingPage() {
         </div>
 
         {/* Content */}
-        <div className="bg-surface border border-border p-8 rounded-2xl shadow-sm">
+        <div className="bg-surface border border-border p-8 rounded-2xl shadow-sm transition-colors">
           {error && (
-            <div className="mb-6 p-4 bg-error/10 border border-error/20 rounded-lg text-error text-sm font-semibold">
+            <div className="mb-6 p-4 bg-error-subtle border border-error/20 rounded-lg text-error text-sm font-semibold">
               {error}
             </div>
           )}
 
           {step === 1 && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h1 className="text-3xl font-bold text-text-primary mb-2">Let's build your DSA roadmap.</h1>
-              <p className="text-text-secondary text-lg mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2">Let's build your DSA roadmap.</h1>
+              <p className="text-text-secondary text-base sm:text-lg mb-8">
                 Tell us where you're heading, and we'll adapt the journey around that goal.
               </p>
               
               <div className="space-y-3">
-                <label className="text-sm font-bold text-text-muted uppercase tracking-wider">Which field are you preparing for?</label>
+                <label className="text-xs font-bold text-text-muted uppercase tracking-wider">Which field are you preparing for?</label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {CAREER_GOALS.map(goal => (
                     <button
                       key={goal}
                       onClick={() => setFormData(prev => ({ ...prev, career_goal: goal }))}
                       className={cn(
-                        "p-4 rounded-xl border text-left font-semibold transition-all duration-200",
+                        "p-4 rounded-xl border text-left font-semibold transition-all duration-200 cursor-pointer shadow-2xs",
                         formData.career_goal === goal 
-                          ? "border-accent bg-accent/5 text-accent" 
-                          : "border-border bg-background text-text-secondary hover:border-text-muted hover:text-text-primary"
+                          ? "border-accent bg-accent-subtle text-accent" 
+                          : "border-border bg-background text-text-secondary hover:border-border-hover hover:text-text-primary"
                       )}
                     >
                       {goal}
@@ -118,23 +124,23 @@ export function OnboardingPage() {
 
           {step === 2 && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h1 className="text-3xl font-bold text-text-primary mb-2">What's your current level?</h1>
-              <p className="text-text-secondary text-lg mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2">What's your current level?</h1>
+              <p className="text-text-secondary text-base sm:text-lg mb-8">
                 We'll start your roadmap at the right difficulty.
               </p>
               
               <div className="space-y-3">
-                <label className="text-sm font-bold text-text-muted uppercase tracking-wider">Experience Level</label>
+                <label className="text-xs font-bold text-text-muted uppercase tracking-wider">Experience Level</label>
                 <div className="grid gap-3">
                   {EXPERIENCE_LEVELS.map(level => (
                     <button
                       key={level}
                       onClick={() => setFormData(prev => ({ ...prev, experience_level: level }))}
                       className={cn(
-                        "p-4 rounded-xl border text-left font-semibold transition-all duration-200",
+                        "p-4 rounded-xl border text-left font-semibold transition-all duration-200 cursor-pointer shadow-2xs",
                         formData.experience_level === level 
-                          ? "border-accent bg-accent/5 text-accent" 
-                          : "border-border bg-background text-text-secondary hover:border-text-muted hover:text-text-primary"
+                          ? "border-accent bg-accent-subtle text-accent" 
+                          : "border-border bg-background text-text-secondary hover:border-border-hover hover:text-text-primary"
                       )}
                     >
                       {level}
@@ -147,23 +153,23 @@ export function OnboardingPage() {
 
           {step === 3 && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h1 className="text-3xl font-bold text-text-primary mb-2">One last thing.</h1>
-              <p className="text-text-secondary text-lg mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2">One last thing.</h1>
+              <p className="text-text-secondary text-base sm:text-lg mb-8">
                 Which programming language will you be coding in?
               </p>
               
               <div className="space-y-3">
-                <label className="text-sm font-bold text-text-muted uppercase tracking-wider">Preferred Language</label>
+                <label className="text-xs font-bold text-text-muted uppercase tracking-wider">Preferred Language</label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {LANGUAGES.map(lang => (
                     <button
                       key={lang}
                       onClick={() => setFormData(prev => ({ ...prev, preferred_language: lang }))}
                       className={cn(
-                        "p-4 rounded-xl border text-left font-semibold capitalize transition-all duration-200",
+                        "p-4 rounded-xl border text-left font-semibold capitalize transition-all duration-200 cursor-pointer shadow-2xs",
                         formData.preferred_language === lang 
-                          ? "border-accent bg-accent/5 text-accent" 
-                          : "border-border bg-background text-text-secondary hover:border-text-muted hover:text-text-primary"
+                          ? "border-accent bg-accent-subtle text-accent" 
+                          : "border-border bg-background text-text-secondary hover:border-border-hover hover:text-text-primary"
                       )}
                     >
                       {lang === 'cpp' ? 'C++' : lang}
@@ -175,37 +181,30 @@ export function OnboardingPage() {
           )}
 
           {/* Footer Actions */}
-          <div className="mt-10 flex justify-between items-center">
+          <div className="mt-10 flex justify-between items-center pt-4 border-t border-border">
             {step > 1 ? (
               <Button variant="ghost" onClick={() => setStep(s => s - 1)}>
                 Back
               </Button>
             ) : <div />}
-            
+
             {step < 3 ? (
               <Button 
                 variant="primary" 
                 onClick={handleNext}
-                disabled={
-                  (step === 1 && !formData.career_goal) ||
-                  (step === 2 && !formData.experience_level)
-                }
-                className="gap-2"
+                disabled={(step === 1 && !formData.career_goal) || (step === 2 && !formData.experience_level)}
               >
-                Continue <ArrowRight className="w-4 h-4" />
+                Continue
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             ) : (
               <Button 
                 variant="primary" 
-                onClick={handleSubmit}
+                onClick={handleSubmit} 
                 disabled={isLoading || !formData.preferred_language}
-                className="gap-2"
               >
-                {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>Complete Setup <ArrowRight className="w-4 h-4" /></>
-                )}
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                Generate Roadmap
               </Button>
             )}
           </div>

@@ -47,12 +47,12 @@ export function CoachMarkdown({ content }: CoachMarkdownProps) {
     if (trimmedLine.match(/^[💡🔍]\s*(\*\*|__)?(Observation|Insight|Vulnerability|Current State)/i)) {
       flushParagraph(`before-obs-${idx}`);
       renderedElements.push(
-        <div key={`card-obs-${idx}`} className="my-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-text-primary">
-          <div className="flex items-center gap-2 font-bold text-xs text-amber-400 mb-1">
+        <div key={`card-obs-${idx}`} className="my-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/25 text-text-primary shadow-2xs">
+          <div className="flex items-center gap-2 font-bold text-xs text-amber-700 dark:text-amber-400 mb-1">
             <Lightbulb className="w-3.5 h-3.5 shrink-0" />
             <span>OBSERVATION</span>
           </div>
-          <div className="text-[13px] leading-relaxed text-amber-100/90 font-medium">
+          <div className="text-[13px] leading-relaxed text-amber-900 dark:text-amber-100/90 font-medium">
             {formatInlineText(cleanLeadingLabel(trimmedLine))}
           </div>
         </div>
@@ -64,12 +64,12 @@ export function CoachMarkdown({ content }: CoachMarkdownProps) {
     if (trimmedLine.match(/^[🎯❓]\s*(\*\*|__)?(Key Question|Question|Next Step|To Consider)/i)) {
       flushParagraph(`before-q-${idx}`);
       renderedElements.push(
-        <div key={`card-q-${idx}`} className="my-2.5 p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-text-primary shadow-sm">
-          <div className="flex items-center gap-2 font-bold text-xs text-cyan-400 mb-1">
+        <div key={`card-q-${idx}`} className="my-2.5 p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-text-primary shadow-2xs">
+          <div className="flex items-center gap-2 font-bold text-xs text-cyan-700 dark:text-cyan-400 mb-1">
             <Target className="w-3.5 h-3.5 shrink-0" />
             <span>PROBING QUESTION</span>
           </div>
-          <div className="text-[13px] leading-relaxed text-cyan-100 font-semibold">
+          <div className="text-[13px] leading-relaxed text-cyan-900 dark:text-cyan-100 font-semibold">
             {formatInlineText(cleanLeadingLabel(trimmedLine))}
           </div>
         </div>
@@ -81,12 +81,12 @@ export function CoachMarkdown({ content }: CoachMarkdownProps) {
     if (trimmedLine.match(/^[⚡🚀💡🛡️]\s*(\*\*|__)?(Hint|Action|Edge Case|Tip|Recommendation)/i)) {
       flushParagraph(`before-h-${idx}`);
       renderedElements.push(
-        <div key={`card-h-${idx}`} className="my-2.5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-text-primary">
-          <div className="flex items-center gap-2 font-bold text-xs text-emerald-400 mb-1">
+        <div key={`card-h-${idx}`} className="my-2.5 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-text-primary shadow-2xs">
+          <div className="flex items-center gap-2 font-bold text-xs text-emerald-700 dark:text-emerald-400 mb-1">
             <Zap className="w-3.5 h-3.5 shrink-0" />
             <span>ACTIONABLE HINT</span>
           </div>
-          <div className="text-[13px] leading-relaxed text-emerald-100/90 font-medium">
+          <div className="text-[13px] leading-relaxed text-emerald-900 dark:text-emerald-100/90 font-medium">
             {formatInlineText(cleanLeadingLabel(trimmedLine))}
           </div>
         </div>
@@ -99,9 +99,9 @@ export function CoachMarkdown({ content }: CoachMarkdownProps) {
       flushParagraph(`before-comp-${idx}`);
       const isTime = trimmedLine.toLowerCase().includes('time');
       renderedElements.push(
-        <div key={`card-comp-${idx}`} className="my-1.5 p-2.5 rounded-lg bg-surface border border-border/80 flex items-start gap-2.5">
+        <div key={`card-comp-${idx}`} className="my-1.5 p-2.5 rounded-lg bg-surface border border-border flex items-start gap-2.5 shadow-2xs">
           {isTime ? <Clock className="w-4 h-4 text-primary mt-0.5 shrink-0" /> : <Sparkles className="w-4 h-4 text-accent mt-0.5 shrink-0" />}
-          <div className="text-[12.5px] leading-relaxed">
+          <div className="text-[12.5px] text-text-primary leading-relaxed">
             {formatInlineText(trimmedLine)}
           </div>
         </div>
@@ -153,7 +153,7 @@ function formatInlineText(text: string): React.ReactNode {
     }
     if (token.startsWith('`') && token.endsWith('`')) {
       return (
-        <code key={index} className="px-1.5 py-0.5 rounded bg-surface border border-border/80 text-primary font-mono text-[12px] font-medium mx-0.5">
+        <code key={index} className="px-1.5 py-0.5 rounded bg-surface border border-border text-text-primary font-mono text-[12px] font-medium mx-0.5 shadow-2xs">
           {token.slice(1, -1)}
         </code>
       );

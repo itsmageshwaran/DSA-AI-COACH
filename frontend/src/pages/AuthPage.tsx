@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BrainCircuit } from 'lucide-react';
 import { useAuth } from '../features/auth/AuthContext';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 
 export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -32,11 +33,16 @@ export function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="bg-surface border border-border rounded-2xl shadow-soft w-full max-w-md p-8">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative font-sans text-text-primary">
+      {/* Top right theme toggle */}
+      <div className="absolute top-6 right-6">
+        <ThemeToggle size="sm" />
+      </div>
+
+      <div className="bg-surface border border-border rounded-2xl shadow-soft w-full max-w-md p-8 transition-colors">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 bg-ai-light rounded-xl flex items-center justify-center mb-4 text-accent">
-            <BrainCircuit className="w-8 h-8" />
+          <div className="w-12 h-12 bg-ai-light rounded-xl flex items-center justify-center mb-4 text-accent shadow-xs border border-ai/10">
+            <BrainCircuit className="w-7 h-7" />
           </div>
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">
             {isLogin ? 'Welcome back' : 'Create an account'}
@@ -49,7 +55,7 @@ export function AuthPage() {
         </div>
 
         {error && (
-          <div className="mb-6 p-3 bg-error/10 border border-error/20 text-error rounded-lg text-sm text-center">
+          <div className="mb-6 p-3 bg-error-subtle border border-error/20 text-error rounded-lg text-sm text-center font-medium">
             {error}
           </div>
         )}
@@ -63,7 +69,7 @@ export function AuthPage() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
+              className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
               placeholder="student@example.com"
             />
           </div>
@@ -75,7 +81,7 @@ export function AuthPage() {
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
+              className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -83,7 +89,7 @@ export function AuthPage() {
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-accent hover:bg-accent-hover text-white py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+            className="w-full bg-primary hover:bg-primary-hover text-text-inverse py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2 shadow-xs cursor-pointer"
           >
             {isSubmitting ? 'Please wait...' : (isLogin ? 'Sign In' : 'Sign Up')}
           </button>
@@ -93,7 +99,7 @@ export function AuthPage() {
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button 
             onClick={() => setIsLogin(!isLogin)}
-            className="text-accent hover:underline font-medium focus:outline-none"
+            className="text-accent hover:underline font-semibold focus:outline-none cursor-pointer"
           >
             {isLogin ? 'Sign up' : 'Sign in'}
           </button>
