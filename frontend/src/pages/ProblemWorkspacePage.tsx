@@ -52,24 +52,39 @@ export function ProblemWorkspacePage() {
   }, [problemId]);
 
   const handleRun = async () => {
+    if (!problem) return;
     setIsExecuting(true);
     setRightTab('tests');
     try {
+      let parsedCases = [];
+      if (problem.test_cases_json) {
+        try {
+          parsedCases = typeof problem.test_cases_json === 'string'
+            ? JSON.parse(problem.test_cases_json)
+            : problem.test_cases_json;
+        } catch (e) {
+          console.error("Failed to parse test_cases_json", e);
+        }
+      }
+
+      if (!parsedCases || parsedCases.length === 0) {
+        parsedCases = [
+          { input_data: { nums: [2, 7, 11, 15], target: 9 }, expected_output: [0, 1] }
+        ];
+      }
+
       const response = await executionApi.run({
         code,
         language: 'python',
-        test_cases: [
-          { input_data: { nums: [-1, 0, 3, 5, 9, 12], target: 9 }, expected_output: 4 },
-          { input_data: { nums: [-1, 0, 3, 5, 9, 12], target: 2 }, expected_output: -1 }
-        ],
-        entrypoint: 'binary_search'
+        test_cases: parsedCases,
+        entrypoint: problem.entrypoint || 'twoSum'
       });
       setExecutionResult(response.execution);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setExecutionResult({
         success: false,
-        error: 'Execution failed due to a network or server error.',
+        error: err.message || 'Execution failed due to a network or server error.',
         execution_time_ms: 0,
         memory_used_kb: 0,
         test_results: []
@@ -82,6 +97,7 @@ export function ProblemWorkspacePage() {
   const [submissionResult, setSubmissionResult] = useState<ExecutionSubmitResponse | null>(null);
 
   const handleSubmit = async () => {
+    if (!problem) return;
     setIsExecuting(true);
     setRightTab('tests');
     try {
@@ -89,7 +105,7 @@ export function ProblemWorkspacePage() {
         exercise_id: problemId || '',
         code,
         language: 'python',
-        entrypoint: 'binary_search' // we might want to get this dynamically later
+        entrypoint: problem.entrypoint || 'twoSum'
       });
       setExecutionResult(response.execution);
       
@@ -97,11 +113,11 @@ export function ProblemWorkspacePage() {
         setSubmissionResult(response);
       }
       
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setExecutionResult({
         success: false,
-        error: 'Submission failed due to a network or server error.',
+        error: err.message || 'Submission failed due to a network or server error.',
         execution_time_ms: 0,
         memory_used_kb: 0,
         test_results: []

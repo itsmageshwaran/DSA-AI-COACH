@@ -158,6 +158,8 @@ class ExerciseResponse(BaseModel):
     difficulty: str | None = None
     concept_name: str | None = None
     is_completed: bool = False
+    test_cases_json: str | None = None
+    entrypoint: str | None = None
     created_at: datetime
 
 
