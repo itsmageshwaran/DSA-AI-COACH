@@ -17,7 +17,13 @@ from src.modules.auth.schemas import RegisterRequest, TokenResponse
 
 async def register_user(uow: UnitOfWork, payload: RegisterRequest) -> User:
     """Validate payload, hash password, and create new User."""
-    validate_password_policy(payload.password)
+    try:
+        validate_password_policy(payload.password)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
 
     user_repo = UserRepository(uow.session)
     existing_user = await user_repo.get_by_email(payload.email)

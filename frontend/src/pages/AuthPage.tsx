@@ -22,6 +22,15 @@ export function AuthPage() {
       if (isLogin) {
         await login(email, password);
       } else {
+        if (password.length < 8) {
+          throw new Error('Password must be at least 8 characters long.');
+        }
+        if (!/[A-Z]/.test(password)) {
+          throw new Error('Password must contain at least one uppercase letter (e.g. A-Z).');
+        }
+        if (!/[0-9]/.test(password)) {
+          throw new Error('Password must contain at least one number (e.g. 0-9).');
+        }
         await register(email, password);
       }
       navigate('/');
@@ -84,6 +93,11 @@ export function AuthPage() {
               className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
               placeholder="••••••••"
             />
+            {!isLogin && (
+              <p className="text-[11px] text-text-muted mt-1.5 leading-normal">
+                Must be at least 8 characters with 1 uppercase letter and 1 number (e.g. <span className="font-mono text-accent">Pass1234!</span>)
+              </p>
+            )}
           </div>
           
           <button 
