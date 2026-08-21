@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -158,7 +159,7 @@ class ExerciseResponse(BaseModel):
     difficulty: str | None = None
     concept_name: str | None = None
     is_completed: bool = False
-    test_cases_json: str | None = None
+    test_cases_json: Any = None
     entrypoint: str | None = None
     created_at: datetime
 

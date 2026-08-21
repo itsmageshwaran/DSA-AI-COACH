@@ -9,8 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infrastructure.database.base import BaseModel
 
-if TYPE_CHECKING:
-    from src.domain.auth.models import User
+from src.domain.auth.models import User
 
 
 class LearningPath(BaseModel):
