@@ -44,4 +44,6 @@ api_router.include_router(tutor_router, prefix="/ws/tutor", tags=["Tutor WebSock
 api_router.include_router(learning_intelligence_router)
 
 from src.api.v1.recommendations import router as recommendations_router
+from src.api.v1.topics import router as topics_router
 api_router.include_router(recommendations_router)
+api_router.include_router(topics_router)

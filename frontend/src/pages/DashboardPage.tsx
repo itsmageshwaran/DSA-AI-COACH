@@ -133,19 +133,33 @@ export function DashboardPage() {
                           <p className="leading-relaxed"><strong>Why this problem:</strong> {recommendation.reason}</p>
                         </div>
                       </div>
-                      <Button 
-                        onClick={() => {
-                          if (recommendation && recommendation.exercise_id) {
-                            navigate(`/workspace/${recommendation.exercise_id}`);
-                          } else {
-                            navigate('/problems');
-                          }
-                        }} 
-                        variant="primary" 
-                        className="w-full sm:w-auto shrink-0 font-semibold text-xs sm:text-sm mt-2 sm:mt-0"
-                      >
-                        {recommendation?.exercise_id ? "Start Problem" : "Browse Problems"}
-                      </Button>
+                      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
+                        {recommendation?.topic && (
+                          <Button
+                            onClick={() => {
+                              const slug = recommendation.topic.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                              navigate(`/topics/${slug}`);
+                            }}
+                            variant="outline"
+                            className="font-semibold text-xs sm:text-sm"
+                          >
+                            Explore Topic
+                          </Button>
+                        )}
+                        <Button 
+                          onClick={() => {
+                            if (recommendation && recommendation.exercise_id) {
+                              navigate(`/workspace/${recommendation.exercise_id}`);
+                            } else {
+                              navigate('/problems');
+                            }
+                          }} 
+                          variant="primary" 
+                          className="font-semibold text-xs sm:text-sm shadow-xs"
+                        >
+                          {recommendation?.exercise_id ? "Start Problem" : "Browse Problems"}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

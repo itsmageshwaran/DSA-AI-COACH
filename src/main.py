@@ -37,6 +37,10 @@ def create_app() -> FastAPI:
     def metrics() -> Response:
         return get_metrics_response()
 
+    # Include top-level health router
+    from src.api.v1.health import router as health_router
+    app.include_router(health_router)
+
     # Include API routers
     app.include_router(api_router, prefix="/api/v1")
 

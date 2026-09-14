@@ -145,16 +145,21 @@ export function LearningPathPage() {
                         <span>{phase.completed_lessons} / {phase.total_lessons} Lessons</span>
                       </div>
                       
-                      {isCurrent && (
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
                         <Button 
-                          onClick={() => navigate('/')}
+                          onClick={() => {
+                            const topicSlug = phase.concept_id || phase.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                            navigate(`/topics/${topicSlug}`);
+                          }}
                           size="sm"
+                          variant={isCurrent ? "primary" : "outline"}
                           className="w-full sm:w-auto text-xs font-semibold gap-1.5 shadow-xs"
                         >
-                          <span>Continue Learning</span>
+                          <PlayCircle className="w-3.5 h-3.5" />
+                          <span>{isCompleted ? "Review Topic" : "Start Topic Journey"}</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </CardContent>

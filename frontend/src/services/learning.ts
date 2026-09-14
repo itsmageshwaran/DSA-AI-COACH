@@ -61,10 +61,63 @@ export interface RecommendationResponse {
   reason: string;
 }
 
+export interface TopicNote {
+  title: string;
+  content: string;
+}
+
+export interface TopicVideo {
+  title: string;
+  duration: string;
+  embed_url: string;
+  search_query: string;
+  key_takeaways: string[];
+}
+
+export interface TopicPracticeProblem {
+  id: string;
+  title: string;
+  difficulty: string;
+  difficulty_rank: number;
+  is_completed: boolean;
+  recommended_reason: string;
+  entrypoint: string;
+}
+
+export interface TopicLearningResponse {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string;
+  why_it_matters: string;
+  prerequisites: string[];
+  estimated_minutes: number;
+  icon: string;
+  video: TopicVideo;
+  complexity: Record<string, string>;
+  notes: TopicNote[];
+  code_snippets: Record<string, string>;
+  preferred_language: string;
+  practice_problems: TopicPracticeProblem[];
+  stats: {
+    total_problems: number;
+    solved_problems: number;
+    mastery_percentage: number;
+    status: 'not_started' | 'in_progress' | 'mastered';
+  };
+}
+
 export const learningApi = {
   getPaths: async (): Promise<LearningPath[]> => {
     const res = await fetchWithAuth('/learning-paths');
     if (!res.ok) throw new Error('Failed to fetch learning paths');
+    return res.json();
+  },
+
+  getTopicLearningData: async (topicId: string): Promise<TopicLearningResponse> => {
+    const res = await fetchWithAuth(`/topics/${topicId}`);
+    if (!res.ok) throw new Error(`Failed to fetch learning data for topic ${topicId}`);
     return res.json();
   },
 

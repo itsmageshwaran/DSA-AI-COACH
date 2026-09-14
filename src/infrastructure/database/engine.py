@@ -15,10 +15,19 @@ def get_engine_kwargs(url: str) -> dict[str, Any]:
     kwargs: dict[str, Any] = {
         "echo": settings.database_echo,
         "future": True,
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
     }
     if "sqlite" not in url:
         kwargs["pool_size"] = settings.pool_size
         kwargs["max_overflow"] = settings.max_overflow
+        kwargs["pool_timeout"] = 30
+        if "postgresql" in url or "asyncpg" in url:
+            kwargs["connect_args"] = {
+                "statement_cache_size": 0,
+                "prepared_statement_cache_size": 0,
+                "server_settings": {"jit": "off"},
+            }
     else:
         kwargs["poolclass"] = StaticPool
         kwargs["connect_args"] = {"check_same_thread": False}
