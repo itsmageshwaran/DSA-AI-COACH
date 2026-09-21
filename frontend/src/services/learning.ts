@@ -38,6 +38,11 @@ export interface Exercise {
   difficulty?: string;
   concept_name?: string;
   is_completed?: boolean;
+  // Project B enrichments
+  hints?: string[];
+  company_tags?: string | null;
+  required_concept?: string | null;
+  difficulty_tier?: string | null;
 }
 
 export interface ConceptMasteryResponse {

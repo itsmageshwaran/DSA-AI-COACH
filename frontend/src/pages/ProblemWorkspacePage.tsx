@@ -19,10 +19,11 @@ export function ProblemWorkspacePage() {
   const navigate = useNavigate();
   const { resolvedTheme } = useTheme();
   
-  const [rightTab, setRightTab] = useState<'tests' | 'coach'>('tests');
+  const [rightTab, setRightTab] = useState<'tests' | 'coach' | 'hints'>('tests');
   const [code, setCode] = useState('def binary_search(arr, target):\n    # Write your implementation here\n    pass');
   const [isExecuting, setIsExecuting] = useState(false);
   const [executionResult, setExecutionResult] = useState<ExecutionResult | null>(null);
+  const [hintIndex, setHintIndex] = useState(0);
 
   const { messages, status: wsStatus, requestReview, askAction, isStreaming } = useTutorWebSocket(problemId || 'unknown');
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -58,6 +59,11 @@ export function ProblemWorkspacePage() {
       }
     }
     loadProblem();
+  }, [problemId]);
+
+  // Reset hint progress when navigating to a new problem
+  useEffect(() => {
+    setHintIndex(0);
   }, [problemId]);
 
   const handleRun = async () => {
@@ -297,9 +303,47 @@ export function ProblemWorkspacePage() {
             <h2 className="text-xs font-bold uppercase tracking-wider text-text-muted">Problem Description</h2>
           </div>
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 custom-scrollbar min-w-0">
+            {/* Metadata row: company, concept, tier */}
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {problem.difficulty_tier && (
+                <Badge variant="outline" className={cn(
+                  "text-[10px] font-semibold capitalize",
+                  problem.difficulty_tier === 'Basic' ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30" :
+                  problem.difficulty_tier === 'Intermediate' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30" :
+                  "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30"
+                )}>
+                  {problem.difficulty_tier}
+                </Badge>
+              )}
+              {problem.required_concept && (
+                <Badge variant="outline" className="text-[10px] bg-accent-subtle text-accent border-accent/25 font-medium max-w-[180px] truncate">
+                  {problem.required_concept}
+                </Badge>
+              )}
+            </div>
+            {problem.company_tags && (
+              <div className="flex items-center gap-1.5 mb-3 text-[11px] text-text-muted font-medium">
+                <span className="font-bold">Asked by:</span>
+                <span className="text-text-secondary">{problem.company_tags}</span>
+              </div>
+            )}
             <div className="text-text-secondary leading-relaxed text-xs sm:text-sm whitespace-pre-wrap">
               {problem.instructions}
             </div>
+            {/* Hint availability notice */}
+            {problem.hints && problem.hints.length > 0 && (
+              <div className="mt-5 p-3 rounded-xl bg-amber-500/8 border border-amber-500/20 flex items-start gap-2">
+                <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-semibold text-amber-600 dark:text-amber-400">
+                    {problem.hints.length} Socratic hints available
+                  </p>
+                  <p className="text-[11px] text-text-muted mt-0.5">
+                    Click the <strong>Hints</strong> tab to reveal them progressively.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -348,10 +392,11 @@ export function ProblemWorkspacePage() {
           "w-full lg:w-[32%] lg:min-w-[300px] lg:max-w-md flex-col border-l border-border bg-surface relative z-0 min-w-0",
           mobileTab === 'right' ? "flex" : "hidden lg:flex"
         )}>
-          {/* Tests vs Coach Tab Header */}
+          {/* Tests vs Coach vs Hints Tab Header */}
           <div className="flex border-b border-border h-11 shrink-0 bg-surface px-2">
             {[
               { id: 'tests', label: 'Test Results', icon: Terminal },
+              { id: 'hints', label: 'Hints', icon: Lightbulb },
               { id: 'coach', label: 'AI Coach', icon: Bot }
             ].map(tab => (
               <button
@@ -366,6 +411,14 @@ export function ProblemWorkspacePage() {
               >
                 <tab.icon className={cn("w-3.5 h-3.5", rightTab === tab.id ? "text-accent" : "text-text-muted")} />
                 <span>{tab.label}</span>
+                {tab.id === 'hints' && problem.hints && problem.hints.length > 0 && (
+                  <span className={cn(
+                    "text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center",
+                    rightTab === 'hints' ? "bg-accent text-white" : "bg-amber-500/20 text-amber-600 dark:text-amber-400"
+                  )}>
+                    {problem.hints.length}
+                  </span>
+                )}
                 {tab.id === 'coach' && wsStatus === 'connected' && (
                   <span className="w-1.5 h-1.5 bg-success rounded-full ring-2 ring-surface ml-1"></span>
                 )}
@@ -375,6 +428,87 @@ export function ProblemWorkspacePage() {
           
           <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col min-w-0">
             
+            {/* Hints Tab */}
+            {rightTab === 'hints' && (
+              <div className="flex flex-col h-full bg-surface p-4 min-w-0">
+                {(!problem.hints || problem.hints.length === 0) ? (
+                  <div className="h-full flex flex-col items-center justify-center text-center px-4 py-8">
+                    <div className="w-12 h-12 bg-surface-muted rounded-full flex items-center justify-center mb-3">
+                      <Lightbulb className="w-6 h-6 text-text-muted" />
+                    </div>
+                    <h3 className="text-text-primary font-bold text-sm mb-1">No Hints Available</h3>
+                    <p className="text-text-secondary text-xs leading-relaxed max-w-xs">
+                      This problem doesn't have structured hints yet. Try asking the AI Coach instead.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <div>
+                        <h3 className="text-sm font-bold text-text-primary">Socratic Hints</h3>
+                        <p className="text-[11px] text-text-muted mt-0.5">Reveal one hint at a time — avoid peeking ahead!</p>
+                      </div>
+                      <span className="text-xs font-bold text-text-secondary bg-surface-muted px-2 py-1 rounded-lg border border-border">
+                        {Math.min(hintIndex, problem.hints.length)} / {problem.hints.length}
+                      </span>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="w-full h-1.5 bg-surface-muted rounded-full overflow-hidden border border-border/40">
+                      <div
+                        className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                        style={{ width: `${(Math.min(hintIndex, problem.hints.length) / problem.hints.length) * 100}%` }}
+                      />
+                    </div>
+
+                    {/* Revealed hints */}
+                    <div className="space-y-2.5 mt-3">
+                      {problem.hints.slice(0, hintIndex).map((hint: string, i: number) => (
+                        <div key={i} className="p-3 rounded-xl bg-amber-500/8 border border-amber-500/20 flex gap-3">
+                          <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                            {i + 1}
+                          </span>
+                          <p className="text-xs sm:text-[13px] leading-relaxed text-text-primary">{hint}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Reveal / Reset buttons */}
+                    <div className="flex gap-2 mt-4">
+                      {hintIndex < problem.hints.length ? (
+                        <button
+                          onClick={() => setHintIndex(h => h + 1)}
+                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 font-semibold text-xs transition-all cursor-pointer shadow-xs"
+                        >
+                          <Lightbulb className="w-3.5 h-3.5" />
+                          <span>Reveal Hint {hintIndex + 1}</span>
+                        </button>
+                      ) : (
+                        <div className="flex-1 p-3 rounded-xl bg-success-subtle border border-success/25 flex items-center gap-2 text-success">
+                          <CheckCircle2 className="w-4 h-4 shrink-0" />
+                          <span className="text-xs font-semibold">All hints revealed!</span>
+                        </div>
+                      )}
+                      {hintIndex > 0 && (
+                        <button
+                          onClick={() => setHintIndex(0)}
+                          className="px-3 py-2.5 rounded-xl bg-surface-muted border border-border hover:bg-surface-hover text-text-secondary hover:text-text-primary text-xs font-medium transition-all cursor-pointer"
+                        >
+                          Reset
+                        </button>
+                      )}
+                    </div>
+
+                    {hintIndex === 0 && (
+                      <p className="text-[11px] text-text-muted text-center mt-2">
+                        Try to solve the problem first before using hints.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* AI Coach Tab */}
             {rightTab === 'coach' && (
               <div className="flex flex-col h-full bg-surface min-w-0">

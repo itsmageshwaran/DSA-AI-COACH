@@ -163,6 +163,12 @@ class ExerciseResponse(BaseModel):
     entrypoint: str | None = None
     created_at: datetime
 
+    # Project B enrichments
+    hints: list[str] = Field(default_factory=list)
+    company_tags: str | None = None
+    required_concept: str | None = None
+    difficulty_tier: str | None = None
+
 
 # Enrollment Schemas
 class EnrollmentCreate(BaseModel):
@@ -234,11 +240,15 @@ class SubmissionCreate(BaseModel):
 
 
 class AchievementResponse(BaseModel):
-    id: str
-    type: str
-    title: str
-    description: str
+    id: str | None = None
+    type: str | None = None
+    title: str | None = None
+    description: str | None = None
     icon: str | None = None
+    achievement_type: str | None = None
+    name: str | None = None
+    icon_name: str | None = None
+    earned_at: str | None = None
 
 class SubmissionResponse(BaseModel):
     """Schema for returning a submission."""

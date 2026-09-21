@@ -133,6 +133,12 @@ class Exercise(BaseModel):
     test_cases_json: Mapped[list[dict]] = mapped_column(JSON, default=list)
     entrypoint: Mapped[str] = mapped_column(String(100), default="solution")
 
+    # Project B enrichments: Socratic hints, company tags, concept label, difficulty tier
+    hints_json: Mapped[str | None] = mapped_column(Text, nullable=True)     # JSON array of 5 progressive hints
+    company_tags: Mapped[str | None] = mapped_column(String(255), nullable=True)  # e.g. "Google · Amazon · Meta"
+    required_concept: Mapped[str | None] = mapped_column(String(255), nullable=True)  # e.g. "Hash Map + complement"
+    difficulty_tier: Mapped[str | None] = mapped_column(String(50), nullable=True)  # "Basic" | "Intermediate" | "Advanced"
+
     lesson_id: Mapped[str] = mapped_column(String(36), ForeignKey("lessons.id"), nullable=False)
 
     if TYPE_CHECKING:

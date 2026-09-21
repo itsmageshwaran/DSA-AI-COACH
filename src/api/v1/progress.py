@@ -84,11 +84,16 @@ async def get_my_achievements(
     
     return [
         AchievementResponse(
-            achievement_type=r.achievement.achievement_type,
-            name=r.achievement.name,
-            description=r.achievement.description,
-            icon_name=r.achievement.icon_name,
-            earned_at=r.earned_at.isoformat()
+            id=r.achievement.id,
+            type=r.achievement.type,
+            title=r.achievement.title,
+            description=r.achievement.description or "Achievement unlocked!",
+            icon=r.achievement.icon or "Trophy",
+            achievement_type=r.achievement.type,
+            name=r.achievement.title,
+            icon_name=r.achievement.icon or "Trophy",
+            earned_at=r.earned_at.isoformat() if r.earned_at else ""
         )
         for r in records
+        if r.achievement
     ]

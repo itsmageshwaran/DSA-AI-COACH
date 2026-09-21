@@ -399,7 +399,7 @@ export const TopicLearningPage: React.FC = () => {
         </div>
       )}
 
-      {/* TAB CONTENT 3: PRACTICE (ADAPTIVE EXERCISES) */}
+      {/* TAB CONTENT 3: PRACTICE (ADAPTIVE EXERCISES — GROUPED BY TIER) */}
       {activeTab === 'practice' && (
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -408,7 +408,7 @@ export const TopicLearningPage: React.FC = () => {
                 <Code2 className="w-5 h-5 text-accent" /> Progressive Practice Curriculum
               </h3>
               <p className="text-xs sm:text-sm text-text-secondary">
-                Curated challenges sequenced from fundamental lookups to algorithmic edge cases.
+                Challenges sequenced from foundational to advanced — follow the tiers in order.
               </p>
             </div>
             <Badge variant="outline" className="text-xs font-semibold px-3 py-1.5 self-start">
@@ -416,72 +416,107 @@ export const TopicLearningPage: React.FC = () => {
             </Badge>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {practice_problems.map((problem) => {
-              const diffBadges: Record<string, { label: string; cls: string }> = {
-                easy: { label: 'Easy', cls: 'bg-success-subtle text-success border-success/20' },
-                easy_plus: { label: 'Easy+', cls: 'bg-success-subtle text-success border-success/20' },
-                medium: { label: 'Medium', cls: 'bg-warning-subtle text-warning border-warning/20' },
-                medium_plus: { label: 'Medium+', cls: 'bg-warning-subtle text-warning border-warning/20' },
-                hard: { label: 'Hard', cls: 'bg-error-subtle text-error border-error/20' },
-                advanced: { label: 'Advanced', cls: 'bg-accent-subtle text-accent border-accent/20' },
-              };
+          {/* Tier grouping */}
+          {(['Basic', 'Intermediate', 'Advanced', null] as (string | null)[]).map((tier) => {
+            const tierProblems = practice_problems.filter((p: any) =>
+              tier === null ? !p.difficulty_tier : p.difficulty_tier === tier
+            );
+            if (tierProblems.length === 0) return null;
 
-              const currentDiff = diffBadges[problem.difficulty] || diffBadges.easy;
+            const tierMeta: Record<string, { emoji: string; color: string; desc: string }> = {
+              Basic: { emoji: '🟢', color: 'text-emerald-600 dark:text-emerald-400', desc: 'Core fundamentals' },
+              Intermediate: { emoji: '🟡', color: 'text-amber-600 dark:text-amber-400', desc: 'Pattern recognition' },
+              Advanced: { emoji: '🔴', color: 'text-rose-600 dark:text-rose-400', desc: 'Interview-level' },
+            };
+            const meta = tier ? tierMeta[tier] : { emoji: '⚪', color: 'text-text-muted', desc: 'Additional practice' };
 
-              return (
-                <Card
-                  key={problem.id}
-                  className={cn(
-                    "p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-xs",
-                    problem.is_completed
-                      ? "bg-success-subtle/20 border-success/30 hover:border-success/60"
-                      : "hover:border-accent/40"
-                  )}
-                >
-                  <div className="space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <span className={cn("px-2.5 py-0.5 text-xs font-bold rounded-full border uppercase tracking-wider", currentDiff.cls)}>
-                        {currentDiff.label}
-                      </span>
-                      {problem.is_completed ? (
-                        <span className="flex items-center gap-1 text-xs text-success font-semibold">
-                          <CheckCircle2 className="w-4 h-4" /> Solved
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1 text-xs text-text-muted">
-                          <Circle className="w-3.5 h-3.5" /> Ready
-                        </span>
-                      )}
-                    </div>
+            return (
+              <div key={tier ?? 'other'} className="space-y-3">
+                {/* Tier header */}
+                <div className="flex items-center gap-2">
+                  <span className="text-base">{meta.emoji}</span>
+                  <h4 className={cn("text-sm font-bold", meta.color)}>
+                    {tier ?? 'Other'} Tier
+                  </h4>
+                  <span className="text-xs text-text-muted">— {meta.desc}</span>
+                  <div className="flex-1 h-px bg-border" />
+                  <span className="text-xs font-semibold text-text-muted">
+                    {tierProblems.filter((p: any) => p.is_completed).length}/{tierProblems.length}
+                  </span>
+                </div>
 
-                    <h4 className="text-base font-bold text-text-primary">
-                      {problem.title}
-                    </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {tierProblems.map((problem: any) => {
+                    const diffBadges: Record<string, { label: string; cls: string }> = {
+                      easy: { label: 'Easy', cls: 'bg-success-subtle text-success border-success/20' },
+                      easy_plus: { label: 'Easy+', cls: 'bg-success-subtle text-success border-success/20' },
+                      medium: { label: 'Medium', cls: 'bg-warning-subtle text-warning border-warning/20' },
+                      medium_plus: { label: 'Medium+', cls: 'bg-warning-subtle text-warning border-warning/20' },
+                      hard: { label: 'Hard', cls: 'bg-error-subtle text-error border-error/20' },
+                      advanced: { label: 'Advanced', cls: 'bg-accent-subtle text-accent border-accent/20' },
+                    };
+                    const currentDiff = diffBadges[problem.difficulty] || diffBadges.easy;
 
-                    <p className="text-xs text-text-secondary line-clamp-2 leading-relaxed">
-                      {problem.recommended_reason}
-                    </p>
-                  </div>
+                    return (
+                      <Card
+                        key={problem.id}
+                        className={cn(
+                          "p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-xs",
+                          problem.is_completed
+                            ? "bg-success-subtle/20 border-success/30 hover:border-success/60"
+                            : "hover:border-accent/40"
+                        )}
+                      >
+                        <div className="space-y-2.5">
+                          <div className="flex items-center justify-between">
+                            <span className={cn("px-2.5 py-0.5 text-xs font-bold rounded-full border uppercase tracking-wider", currentDiff.cls)}>
+                              {currentDiff.label}
+                            </span>
+                            {problem.is_completed ? (
+                              <span className="flex items-center gap-1 text-xs text-success font-semibold">
+                                <CheckCircle2 className="w-4 h-4" /> Solved
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1 text-xs text-text-muted">
+                                <Circle className="w-3.5 h-3.5" /> Ready
+                              </span>
+                            )}
+                          </div>
 
-                  <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
-                    <span className="text-xs font-mono text-text-muted">
-                      entry: {problem.entrypoint}()
-                    </span>
-                    <Button
-                      onClick={() => navigate(`/problems/${problem.id}`)}
-                      size="sm"
-                      variant={problem.is_completed ? "outline" : "primary"}
-                      className="text-xs font-semibold gap-1.5"
-                    >
-                      <span>{problem.is_completed ? 'Review Solution' : 'Solve Problem'}</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
+                          <h4 className="text-base font-bold text-text-primary">
+                            {problem.title}
+                          </h4>
+
+                          {problem.required_concept && (
+                            <span className="text-[11px] text-accent font-medium">{problem.required_concept}</span>
+                          )}
+
+                          <p className="text-xs text-text-secondary line-clamp-2 leading-relaxed">
+                            {problem.recommended_reason}
+                          </p>
+                        </div>
+
+                        <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
+                          <span className="text-xs font-mono text-text-muted truncate max-w-[100px]">
+                            {problem.company_tags || `${problem.entrypoint}()`}
+                          </span>
+                          <Button
+                            onClick={() => navigate(`/workspace/${problem.id}`)}
+                            size="sm"
+                            variant={problem.is_completed ? "outline" : "primary"}
+                            className="text-xs font-semibold gap-1.5 shrink-0"
+                          >
+                            <span>{problem.is_completed ? 'Review' : 'Solve'}</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 

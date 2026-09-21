@@ -155,19 +155,49 @@ export function ProblemLibraryPage() {
                         <h2 className="font-bold text-sm sm:text-base text-text-primary group-hover:text-accent transition-colors truncate">
                           {exercise.title}
                         </h2>
-                        <Badge 
-                          variant="outline" 
+                        {/* Difficulty tier badge (Basic/Intermediate/Advanced) */}
+                        {exercise.difficulty_tier && (
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "text-[10px] font-semibold capitalize shrink-0",
+                              exercise.difficulty_tier === 'Basic' ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30" :
+                              exercise.difficulty_tier === 'Intermediate' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30" :
+                              "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30"
+                            )}
+                          >
+                            {exercise.difficulty_tier}
+                          </Badge>
+                        )}
+                        <Badge
+                          variant="outline"
                           className={cn("text-[11px] font-semibold capitalize shrink-0", getDifficultyColor(exercise.difficulty))}
                         >
                           {exercise.difficulty || 'Easy'}
                         </Badge>
                       </div>
-                      
-                      {exercise.concept_name && (
-                        <p className="text-xs text-text-muted font-medium truncate">
-                          Topic: {exercise.concept_name}
-                        </p>
-                      )}
+
+                      {/* Concept + company row */}
+                      <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                        {exercise.required_concept && (
+                          <span className="text-[11px] text-accent font-medium truncate max-w-[200px]">
+                            {exercise.required_concept}
+                          </span>
+                        )}
+                        {exercise.required_concept && exercise.company_tags && (
+                          <span className="text-text-muted text-[10px]">·</span>
+                        )}
+                        {exercise.company_tags && (
+                          <span className="text-[11px] text-text-muted font-medium truncate max-w-[180px]">
+                            {exercise.company_tags}
+                          </span>
+                        )}
+                        {!exercise.required_concept && exercise.concept_name && (
+                          <span className="text-xs text-text-muted font-medium truncate">
+                            {exercise.concept_name}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
