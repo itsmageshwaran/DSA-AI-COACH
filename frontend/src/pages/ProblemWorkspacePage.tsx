@@ -87,6 +87,12 @@ export function ProblemWorkspacePage() {
         parsedCases = [
           { input_data: { nums: [2, 7, 11, 15], target: 9 }, expected_output: [0, 1] }
         ];
+      } else {
+        // DB stores {input, expected} — API requires {input_data, expected_output}
+        parsedCases = parsedCases.map((tc: any) => ({
+          input_data: tc.input_data ?? tc.input ?? {},
+          expected_output: tc.expected_output ?? tc.expected ?? null,
+        }));
       }
 
       const response = await executionApi.run({
