@@ -6,9 +6,27 @@ import { useAuth } from '../features/auth/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
 import { ProgressRing } from '../components/ui/ProgressRing';
-import { Play, CheckCircle2, TrendingUp, Compass, Code, LayoutDashboard, Target, Zap, ArrowRight, Trophy } from 'lucide-react';
+import { Play, CheckCircle2, TrendingUp, Compass, Code, LayoutDashboard, Target, Zap, ArrowRight, Trophy, Video, BookOpen, Dumbbell } from 'lucide-react';
 import { Skeleton } from '../components/ui/Skeleton';
 import { cn } from '../lib/utils';
+
+// ─── helpers ────────────────────────────────────────────────────────────────
+
+/** Return an inline border-left colour keyed on topic slug */
+function topicAccentStyle(topic: string | undefined): React.CSSProperties {
+  if (!topic) return {};
+  const t = topic.toLowerCase();
+  if (t.includes('array'))                         return { borderLeftColor: '#2563EB' }; // blue
+  if (t.includes('string'))                        return { borderLeftColor: '#7C3AED' }; // purple
+  if (t.includes('linked'))                        return { borderLeftColor: '#059669' }; // green
+  if (t.includes('tree'))                          return { borderLeftColor: '#D97706' }; // amber
+  if (t.includes('graph'))                         return { borderLeftColor: '#DC2626' }; // red
+  if (t.includes('hash') || t.includes('map'))    return { borderLeftColor: '#0891B2' }; // cyan
+  if (t.includes('stack') || t.includes('queue')) return { borderLeftColor: '#9333EA' }; // violet
+  if (t.includes('heap') || t.includes('priority'))return { borderLeftColor: '#EA580C' }; // orange
+  if (t.includes('dynamic') || t.includes('dp'))  return { borderLeftColor: '#6366F1' }; // indigo
+  return { borderLeftColor: 'var(--accent)' };
+}
 
 export function DashboardPage() {
   const { user } = useAuth();
@@ -93,6 +111,33 @@ export function DashboardPage() {
         </div>
       </div>
 
+      {/* ── Learning Loop Indicator ─────────────────────────────────────── */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap" aria-label="Learning loop steps">
+        {/* Step 01 – Watch */}
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent-subtle border border-accent/20 text-accent text-xs font-semibold shadow-2xs select-none">
+          <Video className="w-3.5 h-3.5 shrink-0" />
+          <span className="tracking-wide uppercase">01 Watch</span>
+        </div>
+
+        {/* connector */}
+        <ArrowRight className="w-4 h-4 text-text-muted shrink-0" aria-hidden="true" />
+
+        {/* Step 02 – Read */}
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-ai-light border border-ai/20 text-ai text-xs font-semibold shadow-2xs select-none">
+          <BookOpen className="w-3.5 h-3.5 shrink-0" />
+          <span className="tracking-wide uppercase">02 Read</span>
+        </div>
+
+        {/* connector */}
+        <ArrowRight className="w-4 h-4 text-text-muted shrink-0" aria-hidden="true" />
+
+        {/* Step 03 – Practice */}
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-success-subtle border border-success/20 text-success text-xs font-semibold shadow-2xs select-none">
+          <Dumbbell className="w-3.5 h-3.5 shrink-0" />
+          <span className="tracking-wide uppercase">03 Practice</span>
+        </div>
+      </div>
+
       {/* Main Grid: 2 cols Main / 1 col Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 min-w-0">
         
@@ -106,7 +151,10 @@ export function DashboardPage() {
             </h2>
             
             {recommendation ? (
-              <Card className="hover:border-accent/40 transition-all duration-200 border-l-4 border-l-accent overflow-hidden shadow-2xs">
+              <Card
+                className="hover:border-accent/40 transition-all duration-200 border-l-4 overflow-hidden shadow-2xs"
+                style={topicAccentStyle(recommendation?.topic)}
+              >
                 <CardContent className="p-5 sm:p-6">
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -239,6 +287,7 @@ export function DashboardPage() {
               <div className="min-w-0">
                 <span className="text-2xl font-bold text-text-primary block leading-none">{Math.round(metrics?.completion_percentage || 0)}%</span>
                 <span className="text-xs font-semibold text-text-muted uppercase tracking-wider mt-1 block">Completed</span>
+                <span className="text-xs text-accent font-medium mt-0.5 block">Keep your streak alive! 🔥</span>
               </div>
             </Card>
 

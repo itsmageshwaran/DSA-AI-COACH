@@ -14,28 +14,87 @@ const defaultWs = API_BASE.startsWith('https://')
 
 export const WS_BASE = (import.meta.env.VITE_WS_URL as string | undefined) || defaultWs;
 
+// ---------------------------------------------------------------------------
+// Error helper
+// ---------------------------------------------------------------------------
+
+/**
+ * Extracts a human-readable message from any thrown value.
+ * Works with fetch network errors, HTTP-error objects that carry a `message`
+ * field, plain Error instances, and arbitrary unknown values.
+ */
+export function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  if (typeof err === 'string') return err;
+  if (
+    err !== null &&
+    typeof err === 'object' &&
+    'message' in err &&
+    typeof (err as Record<string, unknown>).message === 'string'
+  ) {
+    return (err as { message: string }).message;
+  }
+  return 'An unexpected error occurred.';
+}
+
+// ---------------------------------------------------------------------------
+// Core fetch wrapper
+// ---------------------------------------------------------------------------
+
+const RETRY_DELAY_MS = 1000;
+
+/** Returns true for errors that are safe to retry (network-level, not HTTP). */
+function isNetworkError(err: unknown): boolean {
+  // fetch() rejects with a TypeError on network failures (no response at all).
+  // 4xx/5xx responses resolve normally and are NOT retried.
+  return err instanceof TypeError;
+}
+
+async function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem('access_token');
-  
+
   const headers = new Headers(options.headers || {});
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
   }
 
   if (options.body && typeof options.body === 'string' && !headers.has('Content-Type')) {
-      if (options.body.startsWith('{') || options.body.startsWith('[')) {
-          headers.set('Content-Type', 'application/json');
-      }
+    if (options.body.startsWith('{') || options.body.startsWith('[')) {
+      headers.set('Content-Type', 'application/json');
+    }
   }
 
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  const requestInit: RequestInit = { ...options, headers };
+  const url = `${API_BASE}${endpoint}`;
 
+  // --- attempt with one retry on network error ---
+  let response: Response;
+  try {
+    response = await fetch(url, requestInit);
+  } catch (err) {
+    if (isNetworkError(err)) {
+      await sleep(RETRY_DELAY_MS);
+      // Second attempt — let any error propagate to the caller.
+      response = await fetch(url, requestInit);
+    } else {
+      throw err;
+    }
+  }
+
+  // --- 401: clear tokens and redirect to login ---
   if (response.status === 401) {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     window.dispatchEvent(new Event('auth-error'));
+    // Hard-redirect so the user lands on the login page regardless of which
+    // router state they were in, preventing any broken authenticated view.
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
   }
 
   return response;

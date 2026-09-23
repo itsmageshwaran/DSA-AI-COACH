@@ -274,30 +274,32 @@ export function ProblemWorkspacePage() {
         </div>
       </header>
 
-      {/* Mobile / Tablet Tabs Switcher (<1024px) */}
-      <div className="lg:hidden flex border-b border-border bg-surface shrink-0 min-w-0">
+      {/* Mobile Bottom Tab Bar — fixed to bottom on <lg screens */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 flex border-t border-border bg-surface min-w-0" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {[
-          { id: 'problem', label: 'Problem' },
-          { id: 'editor', label: 'Code' },
-          { id: 'right', label: 'Tests & AI' },
+          { id: 'problem', label: 'Problem', icon: BookOpen },
+          { id: 'editor',  label: 'Code',    icon: Code2 },
+          { id: 'right',   label: 'Results', icon: Terminal },
         ].map(tab => (
           <button
             key={tab.id}
             onClick={() => setMobileTab(tab.id as any)}
             className={cn(
-              "flex-1 py-2.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors cursor-pointer text-center",
+              "flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-[10px] sm:text-xs font-semibold transition-colors cursor-pointer",
               mobileTab === tab.id
-                ? "border-accent text-accent bg-accent-subtle/30"
-                : "border-transparent text-text-secondary hover:text-text-primary"
+                ? "text-accent bg-accent-subtle/30"
+                : "text-text-secondary hover:text-text-primary"
             )}
           >
-            {tab.label}
+            <tab.icon className={cn("w-4 h-4", mobileTab === tab.id ? "text-accent" : "text-text-muted")} />
+            <span>{tab.label}</span>
           </button>
         ))}
       </div>
 
       {/* 3-Pane Workspace Desktop (Reflows into active mobile/tablet tab) */}
-      <div className="flex-1 flex overflow-hidden min-w-0 w-full">
+      {/* pb-14 on mobile reserves space for the fixed bottom tab bar */}
+      <div className="flex-1 flex overflow-hidden min-w-0 w-full pb-14 lg:pb-0">
         
         {/* Left Pane: Problem Description */}
         <div className={cn(
@@ -368,7 +370,7 @@ export function ProblemWorkspacePage() {
             </div>
           </div>
           
-          <div className="flex-1 relative min-w-0 w-full overflow-hidden">
+          <div className="flex-1 relative min-w-0 w-full overflow-hidden min-h-[300px]">
             <Editor
               height="100%"
               defaultLanguage="python"
@@ -401,7 +403,7 @@ export function ProblemWorkspacePage() {
           {/* Tests vs Coach vs Hints Tab Header */}
           <div className="flex border-b border-border h-11 shrink-0 bg-surface px-2">
             {[
-              { id: 'tests', label: 'Test Results', icon: Terminal },
+              { id: 'tests', label: 'Tests', icon: Terminal },
               { id: 'hints', label: 'Hints', icon: Lightbulb },
               { id: 'coach', label: 'AI Coach', icon: Bot }
             ].map(tab => (
@@ -409,17 +411,17 @@ export function ProblemWorkspacePage() {
                 key={tab.id}
                 onClick={() => setRightTab(tab.id as any)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 sm:px-4 h-full text-xs sm:text-sm font-semibold border-b-2 transition-all relative cursor-pointer",
+                  "flex items-center justify-center gap-1.5 px-2 sm:px-4 h-full text-xs sm:text-sm font-semibold border-b-2 transition-all relative cursor-pointer flex-1 sm:flex-none",
                   rightTab === tab.id 
                     ? "border-accent text-accent" 
                     : "border-transparent text-text-secondary hover:text-text-primary hover:bg-surface-hover"
                 )}
               >
-                <tab.icon className={cn("w-3.5 h-3.5", rightTab === tab.id ? "text-accent" : "text-text-muted")} />
-                <span>{tab.label}</span>
+                <tab.icon className={cn("w-3.5 h-3.5 shrink-0", rightTab === tab.id ? "text-accent" : "text-text-muted")} />
+                <span className="hidden sm:inline">{tab.label}</span>
                 {tab.id === 'hints' && problem.hints && problem.hints.length > 0 && (
                   <span className={cn(
-                    "text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center",
+                    "text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shrink-0",
                     rightTab === 'hints' ? "bg-accent text-white" : "bg-amber-500/20 text-amber-600 dark:text-amber-400"
                   )}>
                     {problem.hints.length}
@@ -470,11 +472,11 @@ export function ProblemWorkspacePage() {
                     {/* Revealed hints */}
                     <div className="space-y-2.5 mt-3">
                       {problem.hints.slice(0, hintIndex).map((hint: string, i: number) => (
-                        <div key={i} className="p-3 rounded-xl bg-amber-500/8 border border-amber-500/20 flex gap-3">
+                        <div key={i} className="p-3 rounded-xl bg-amber-500/8 border border-amber-500/20 flex gap-3 min-w-0 overflow-hidden">
                           <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                             {i + 1}
                           </span>
-                          <p className="text-xs sm:text-[13px] leading-relaxed text-text-primary">{hint}</p>
+                          <p className="text-xs sm:text-[13px] leading-relaxed text-text-primary min-w-0 break-words">{hint}</p>
                         </div>
                       ))}
                     </div>
